@@ -2,7 +2,7 @@ function [dy] = DEsyst (time,state)
 % Below all conservation equation are calculated. 
 % Note that "getRef" is the function that contains the input stimulus of 
 % the model. 
-global J_PLC 
+global J_PLC
 
 dy = zeros(size(state));
 all_constants(); % All constants used in this model
@@ -108,7 +108,7 @@ dy(ind.R)= R0pas_r/nu_r *(state(ind.R)*P_r/SMC(flu.h_r) - E_r * ((state(ind.R) -
 
 % NE           
        dy(ind.Ca_n)       = (((NE(flu.I_Ca))/(2*Farad*v_spine)-(k_ex*(state(ind.Ca_n)-Ca_rest)))/(1+lambda));                                                   % cytosolic [Ca2+] in the NE in \muM
-       dy(ind.nNOS_act)   = 0;%V_maxNOS*(NE(flu.CaM))/(K_actNOS+NE(flu.CaM))-mu2*state(ind.nNOS_act);                                    % activated nNOS in \muM
+       dy(ind.nNOS_act)   = V_maxNOS*(NE(flu.CaM))/(K_actNOS+NE(flu.CaM))-mu2*state(ind.nNOS_act);                                    % activated nNOS in \muM
 %       dy(ind.nNOS_act)   = V_maxNOS*(NE(flu.CaM)-CaM_thresh)/(K_actNOS+NE(flu.CaM)-CaM_thresh)-mu2*state(ind.nNOS_act);                                    % activated nNOS in \muM
 
 %        dy(ind.NOn)        = V_nNOS*(LArg)/((LArg^2+1)^0.5)*(state(ind.nNOS_act)) - ((state(ind.NOn)-state(ind.NOi))/tau_ni) - (k_O2*state(ind.NOn)^2*On);   % NO concentration in the neuron ; (95)
@@ -130,7 +130,7 @@ dy(ind.R)= R0pas_r/nu_r *(state(ind.R)*P_r/SMC(flu.h_r) - E_r * ((state(ind.R) -
        
 % EC
 %        dfdt(ind.eNOS_act)   =                           -mu2*state(ind.eNOS_act)+g_max*EC(flu.F_tau_w) ;              % (104) without the Ca2+ part
-       dy(ind.eNOS_act)   = 0;%((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j)))-mu2*state(ind.eNOS_act)+g_max*EC(flu.F_tau_w) ;          % (104)
+       dy(ind.eNOS_act)   = ((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j)))-mu2*state(ind.eNOS_act)+g_max*EC(flu.F_tau_w) ;          % (104)
        dy(ind.NOj)        = (V_NOj_max * (state(ind.eNOS_act)) * (Oj/(K_mO2_j+Oj)) * (LArg/(K_mArg+LArg)) ) + ((state(ind.NOi)-state(ind.NOj))/tau_ij)   - k_O2*(state(ind.NOj))^2*Oj - state(ind.NOj)*4*3300/(25^2);
 %        dy(ind.NOj)        = (V_cmax * (state(ind.eNOS_act)) * (LArg/(K_mArg + LArg)) * (Oj/(K_mO2_j+Oj))) - (state(ind.NOj)-state(ind.NOi))/tau_ji   - k_O2*(state(ind.NOj))^2*Oj - state(ind.NOj)*4*3300/(25^2);   % NO concentration in the neuron ; (95)
 
