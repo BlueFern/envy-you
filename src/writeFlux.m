@@ -15,7 +15,7 @@ global csvfilename
         [NE,AC, SMC, EC] = all_fluxes(time(1),state);
         dfdt = DEsyst(time(1),state);
         dataNew = [NE,AC,SMC,EC,state((1:numODE),1)',dfdt((1:numODE),1)',time(1)...
-            ,getRef(time(1),'ft')',getRef(time(1),'fluxft')',getRef(time(1),'rho')'];
+            ,getRef(time(1),'ft')',getRef(time(1),'fluxft')',getRef(time(1),'rho')',getRef(time(1),'wss')',getRef(time(1),'Glu')'];
 
         try
             data = csvread(csvfilename);

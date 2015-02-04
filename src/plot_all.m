@@ -5,12 +5,12 @@ all_constants();
 
 linestylle = ':';
 
-n = zeros(1,8);
+n = zeros(1,9);
 a = zeros(1,31);
 s = zeros(1,34);
 e = zeros(1,19);
-f= zeros(1,41); 
-dfdt= zeros(1,41);
+f= zeros(1,42); 
+dfdt= zeros(1,42);
 t= zeros(3,1);
 input= zeros(1,3);
 
@@ -24,7 +24,7 @@ tijdoff = dfdtoff+ length(dfdt);
 inputoff= tijdoff+ 1;
 
 
-time = DATA(:,length(DATA(1,:))-3);
+time = DATA(:,length(DATA(1,:))-5);
 
 % plots report
 
@@ -402,17 +402,17 @@ plot(time,1e6*state(:,ind.R),'LineWidth',2);
 
 %% NO pathway
 
-figure(5)
+figure(8)
 set(gcf,'Name','NO pathway')
 set(gcf,'Position', [24 62 1616 904],...
         'PaperPosition', [0.634517 6.34517 20.3046 15.2284]...
         );
    
 subplot(4,2,1)
-    plot( time,DATA(:,inputoff+3)./1e3);
+    plot( time,DATA(:,inputoff+5)./1e3);
 xlabel('Time [s]')
 ylabel('[Glu] in mM s^{-1}')
-% [AX3,H56,H67] = plotyy( time,DATA(:,inputoff+4),time,DATA(:,inputoff+3)./1e3);
+% [AX3,H56,H67] = plotyy( time,DATA(:,inputoff+4),time,DATA(:,inputoff+5)./1e3);
 % set(get(AX3(1),'Ylabel'),'String','wss in Pa') 
 % set(get(AX3(2),'Ylabel'),'String','[Glu] in mM s^{-1}') 
 
@@ -437,10 +437,10 @@ xlabel('time in s')
 ylabel('[nNOS_{act}] in \muM')
 
 subplot(4,2,7)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOj),time, state(:,ind.NOi))
+plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
 xlabel('time in s')
 ylabel('[NO] in \muM')
-legend('[NO]_n','[NO]_j','[NO]_i','Location','NorthWest')
+legend('[NO]_n','[NO]_a','[NO]_j','[NO]_i','Location','NorthWest')
 
 subplot(4,2,8)
 plot(time, state(:,ind.cGMP))
@@ -448,14 +448,14 @@ xlabel('time in s')
 ylabel('[cGMP] in \muM')
 
 
-figure(6)
+figure(9)
 set(gcf,'Name','Report1 - NO pathway')
 set(gcf,'Position', [24 62 734 904],...
         'PaperPosition', [0.634517 6.34517 20.3046 15.2284]...
         );
    
 subplot(4,2,1)
-% plot( time,DATA(:,inputoff+3)./1e3);
+% plot( time,DATA(:,inputoff+5)./1e3);
 % ylabel('[Glu] in mM s^{-1}')
 [AX4,H78,H89] = plotyy( time,DATA(:,inputoff+4),time,DATA(:,inputoff+3)./1e3);
 set(get(AX4(1),'Ylabel'),'String','wss in Pa') 
@@ -474,10 +474,10 @@ plot(time, state(:,ind.nNOS_act))
 ylabel('[nNOS_{act}]_n in \muM')
 
 subplot(4,2,7)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOj),time, state(:,ind.NOi))
+plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
 xlabel('time in s')
 ylabel('[NO] in \muM')
-legend('[NO]_n','[NO]_j','[NO]_i','Location','NorthWest')
+legend('[NO]_n','[NO]_a','[NO]_j','[NO]_i','Location','NorthWest')
 
 subplot(4,2,2)
 plot(time, state(:,ind.cGMP))
@@ -500,7 +500,7 @@ ylabel('Radius in \mum')
 
 
 
-figure(7)
+figure(10)
 set(gcf,'Name','Report2 - NO pathway')
 set(gcf,'Position', [24 62 734 904],...
         'PaperPosition', [0.634517 6.34517 20.3046 15.2284]...
@@ -509,7 +509,7 @@ set(gcf,'Position', [24 62 734 904],...
 subplot(4,2,1)
 % plot( time,DATA(:,inputoff+4));
 % ylabel('wss in Pa')
-[AX3,H56,H67] = plotyy( time,DATA(:,inputoff+4),time,DATA(:,inputoff+3)./1e3);
+[AX3,H56,H67] = plotyy( time,DATA(:,inputoff+4),time,DATA(:,inputoff+5)./1e3);
 set(get(AX3(1),'Ylabel'),'String','wss in Pa') 
 set(get(AX3(2),'Ylabel'),'String','[Glu] in mM s^{-1}') 
 
@@ -519,10 +519,10 @@ plot(time, state(:,ind.eNOS_act))
 ylabel('[eNOS_{act}]_j in \muM')
 
 subplot(4,2,5)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOj),time, state(:,ind.NOi))
+plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
 %xlabel('time in s')
 ylabel('[NO] in \muM')
-legend('[NO]_n','[NO]_j','[NO]_i','Location','NorthWest')
+legend('[NO]_n','[NO]_a','[NO]_j','[NO]_i','Location','NorthWest')
 
 subplot(4,2,7)
 plot(time, state(:,ind.cGMP))
@@ -545,14 +545,14 @@ xlabel('time in s')
 ylabel('Radius in \mum')
 
 
-figure(8)
+figure(11)
 set(gcf,'Name','Report3 - NO pathway')
 set(gcf,'Position', [24 62 734 904],...
         'PaperPosition', [0.634517 6.34517 20.3046 15.2284]...
         );
    
 subplot(4,2,1)
-[AX1,H34,H45] = plotyy( time,DATA(:,inputoff+4),time,DATA(:,inputoff+3)./1e3);
+[AX1,H34,H45] = plotyy( time,DATA(:,inputoff+4),time,DATA(:,inputoff+5)./1e3);
 set(get(AX1(1),'Ylabel'),'String','wss in Pa') 
 set(get(AX1(2),'Ylabel'),'String','[Glu] in mM s^{-1}') 
 
@@ -597,7 +597,7 @@ ylabel('Radius in \mum')
 
 
 
-figure(9)
+figure(12)
 set(gcf,'Name','Report4 - NO pathway')
 set(gcf,'Position', [24 62 734 904],...
         'PaperPosition', [0.634517 6.34517 20.3046 15.2284]...

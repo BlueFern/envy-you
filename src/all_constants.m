@@ -81,7 +81,7 @@ v_Cl		= -25;
 G_K			= 0.00446;
 vK_i		= -94; 
 lab 		= 45;
-c_w			= 0;
+%c_w			= 0;
 bet			= 0.13;
 
 R_K			= 12;
@@ -248,7 +248,6 @@ v_spine     = 8e-8;         % [fL] ; the volume of the neuronal dendritic spine
 k_ex        = 1600;         % [s^{-1}] ; the decay rate constant of internal calcium concentration
 Ca_rest     = 0.1; 			% [\muM] ; the resting calcium concentration (in Comerford+David2008: 2.830 mM; in Santucci2008P: 0.1 \muM)
 lambda      = 20;           % [-] ; the buffer capacity
-V_maxNOS    = 25e-3;   		% [\muM] 1.683;%0.025; %2.5e-8;%2.5e-8; %1.683e-4; %1.324; %2.5e-5; % 0.025;% 2.5e-8; %2.4925e-8;  %0.025; %2.0265e-9; % 1.054e-7;  % 1.683;[mM s^{-1}] (Hayashi1999)
 
 V_nNOS      = 1.435;        % [-] ; NO production - nNOS concentration ratio (Chen+Popel2007)
 
@@ -257,10 +256,16 @@ K_actNOS    = 9.27e-2;      % [microM]
 %tau_ni      = 0.01;       	% [s]; time for NO to diffuse the distance between the neuron and SMC ; estimation
 %tau_ji      = 0.01;        % [s]; time for NO to diffuse the distance between the EC and SMC ; estimation
 D_NO 		= 3300;			% [\muM^2 s^{-1}] ; NO diffusion coefficient 
-dist_ni		= 50;			% [\mu m] ; estimation
-dist_ji		= 3.75;			% [\mu m] ; Kavdia 2002
-tau_ni      = dist_ni^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
-tau_ji      = dist_ji^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
+% dist_ni		= 50;			% [\mu m] ; estimation
+
+dist_na     = 25;
+dist_ai     = 25;
+dist_ij		= 3.75;			% [\mu m] ; Kavdia 2002
+
+% tau_ni      = dist_ni^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
+tau_na      = dist_na^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
+tau_ai      = dist_ai^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
+tau_ij      = dist_ij^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
 
 k_O2        = 9.6e-6;       % [microM^{-2} s^{-1}] 
 On          = 200;         	% [microM] ; the tissue O2 concentration in the neuron
@@ -285,12 +290,11 @@ Oj          = 200;         	% [\muM]; the O2 concentration in the EC
 K_dis       = 9e-2;    		% [\muM s^{-1}]          % = 0.09 [\mu M s^{-1}]
 K_eNOS      = 4.5e-1;    	% [\muM]            % = 0.45 [\mu M] ; Michaelis constant for dx(eNOS_act)
 mu2         = 0.0167;       % [s^{-1}] ; the rate constant at which the eNOS is deactivated 
-g_max       = 0.3;    		% [microM s^{-1}], maximal wss activation - fitted on Kavdia2003; in Comerford2008: 0.06, in Hannahs thesis 17.6, because she mixed up qmax and gmax in Comerford2008 
+g_max       = 0.3;    		% [microM s^{-1}], maximal wss activation - fitted to Kavdia2003; in Comerford2008: 0.06, in Hannahs thesis 17.6, because she mixed up qmax and gmax in Comerford2008 
 alp         = 2;            % [-] (in Wiesner1997: 3)
 W_0         = 1.4;        	% [Pa^{-1}]
 delt_wss    = 2.86 ;        % [Pa] ; the membrane shear modulus
 
-V_eNOS      = 0.24;         % [-] ; NO production - eNOS concentration ratio (Chen+Popel2006)
 
 % SMC*********************
 k_dno       = 0.01;         % [s^{-1}]  (Hannahs code)
@@ -334,7 +338,14 @@ v_Ca3		= -27; % cGMP and NO dependent
 
 c_wi = 0; % translation factor for Ca dependence of KCa channel activation sigmoidal [microM] 
 bet_i= 0.13; % translation factor for membrane potential dependence of KCa channel activation sigmoidal [microM^2] 
-V_cmax = 1.22; % s^-1, maximum catalytic rate of NO production (Chen2006) - obtained from fig 6 & equ 17 & 18 - we might want to change this value! - Liu: 0.585 micromol / min / (mg of protein)
-K_mArg_j = 1.5; 
+
+K_mArg = 1.5; % in EC and neuron, maybe we want to make it cell-specific like O2! --> Chen2006 & 2007
 K_mO2_j = 7.7;
 K_mO2_n = 243; % 140-145 uM Chen2007
+
+    V_maxNOS    = 25e-3;   		% [\muM] 1.683;%0.025; %2.5e-8;%2.5e-8; %1.683e-4; %1.324; %2.5e-5; % 0.025;% 2.5e-8; %2.4925e-8;  %0.025; %2.0265e-9; % 1.054e-7;  % 1.683;[mM s^{-1}] (Hayashi1999)
+    V_eNOS     = 0.24;         % [-] ; NO production - eNOS concentration ratio (Chen+Popel2006)
+
+
+V_NOj_max = 0.24; % 1.22; % s^-1, maximum catalytic rate of NO production (Chen2006) - obtained from fig 6 & equ 17 & 18 - we might want to change this value! - Liu: 0.585 micromol / min / (mg of protein)
+V_NOn_max = 4.22; % s^-1, maximum catalytic rate of NO production (Chen2006) - obtained from fig 6 & equ 17 & 18 - we might want to change this value! - Liu: 0.585 micromol / min / (mg of protein)

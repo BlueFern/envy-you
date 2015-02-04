@@ -51,9 +51,11 @@ ind.E_6c            = i+9;
 ind.E_5c            = i+10;  
 ind.M_Y             = i+11; 
 ind.Mp_Y            = i+12; 
+ind.NOa             = i+13;        % NO concentration in the AC
 
 %% NO pathway - fluxes NE
-j = 0;
+j = 1;
+flu.tau_w           = j;
 flu.P_NR2AO         = j+1 ;
 flu.P_NR2BO         = j+2 ; 
 flu.openProbTerm    = j+3 ;  

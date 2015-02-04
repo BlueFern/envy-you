@@ -17,24 +17,24 @@ function STATES = InitCond()
    
    
     
-    STATES(ind.Ca_i)    = 0.1;            % calcium concentration in cytosol
-    STATES(ind.s_i)     = 0.1;            % calcium concentration in sacroplasmatic reticulum
-    STATES(ind.v_i)     = -60;            % mV celmembrane of SMC
-    STATES(ind.w_i)     = 0.1;            % open state probability of calcium-activated K channels
-    STATES(ind.I_i)     = 0.1;            % IP3 concentration
+    STATES(ind.Ca_i)    = 0.1649;   %*0.1;            % calcium concentration in cytosol
+    STATES(ind.s_i)     =  1.361;  %* 0.1          % calcium concentration in sacroplasmatic reticulum
+    STATES(ind.v_i)     = -50.3; %*-60;    vivi; %        % mV celmembrane of SMC
+    STATES(ind.w_i)     = 0.234; %*0.1;            % open state probability of calcium-activated K channels
+    STATES(ind.I_i)     = 0.45; %*0.1;            % IP3 concentration
     
     STATES(ind.K_i)     = 100e3;            %uM [K+] in SMC
     
-    STATES(ind.Ca_j)    = 0.1;            % calcium concentration in EC cytosol
-    STATES(ind.s_j)     = 0.1;            % calcium concentration in endoplasmatic reticulum
-    STATES(ind.v_j)     = -75;            % mV celmembrane of EC
-    STATES(ind.I_j)     = 0.1;            % IP3 concentration in EC
+    STATES(ind.Ca_j)    = 0.5628; %*0.1;            % calcium concentration in EC cytosol
+    STATES(ind.s_j)     = 0.8392; %*0.1;            % calcium concentration in endoplasmatic reticulum
+    STATES(ind.v_j)     = -65.24; %*-75;            % mV celmembrane of EC
+    STATES(ind.I_j)     = 1.35; %*0.1;            % IP3 concentration in EC
     
     STATES(ind.Mp)      = 0.25;  %Mp + M + AMp + AM = 1 !
     STATES(ind.AMp)     = 0.25;
     STATES(ind.AM)      = 0.25;
     
-    STATES(ind.R)       = 20e-6; % 15e-6;
+    STATES(ind.R)       = 24.8e-6; % *20e-6; % 15e-6;
 
           %Hannah:
     STATES(ind.Ca_k)      =0.05e-3;       % uM Bennet 2008
@@ -48,8 +48,8 @@ function STATES = InitCond()
     STATES(ind.NOi)     = 0.05;
     STATES(ind.NOj)     = 0.05;
     STATES(ind.NOn)     = 0.1;
-    STATES(ind.eNOS_act)= 3;
-    STATES(ind.nNOS_act)= 0.3;
+    STATES(ind.eNOS_act)= 0;%3;%!!!!!!!!!!!!!!!!
+    STATES(ind.nNOS_act)= 0;%0.3;%!!!!!!!!!!!!!!!!
     STATES(ind.Ca_n)    = 0.0001;
     STATES(ind.E_b)     = 1/3; % E_b + E_6c + E_5c = 1 !
     STATES(ind.E_6c)     = 1/3;
@@ -57,4 +57,5 @@ function STATES = InitCond()
     STATES(ind.cGMP)    = 8;
     STATES(ind.M_Y)     = 0.5; %M_Y + Mp_Y = 1 !
     STATES(ind.Mp_Y)    = 0.5; 
+    STATES(ind.NOa)     = 0.1;
 end
