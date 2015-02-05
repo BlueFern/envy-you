@@ -168,7 +168,7 @@ Glu = getRef(t,'Glu');
 if t_wss_switch == 1
     NE(flu.tau_w) = state(ind.R)*5.7177e5/(2*pi); %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 elseif t_wss_switch == 0
-    NE(flu.tau_w) = 2.0357; %1.82 (bei 20um)
+    NE(flu.tau_w) = 2.0739; %1.82 (bei 20um)
 end
 
 % NE
