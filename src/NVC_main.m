@@ -1,4 +1,4 @@
-clean
+%clean
 tic
 
 % global variables
@@ -21,11 +21,16 @@ lalaa = 1;
 % for t_wss_switch = [1]
 % 
 % for NO_switch = [1]
-for switch1 = [0,1]
+% for switch1 = [1]
     
-c_w_switch = switch1;
-t_wss_switch = switch1;
-NO_switch = switch1;
+% c_w_switch = switch1;
+% t_wss_switch = switch1;
+% NO_switch = switch1;
+%     
+
+c_w_switch = 0;
+t_wss_switch = 0;
+NO_switch = 0;
     
 c_w_switch
 t_wss_switch
@@ -35,10 +40,10 @@ NO_switch
 %% Parameters to adjust the model:
 t_start = 0;
 t_end = 2000;
-startpulse  = 800;  % (s) 
+startpulse  = 1000;  % (s) 
 lengthpulse = 200;  % (s) 
-Glu_start   = 800;
-Glu_end     = 1000;
+Glu_start   = 1000;
+Glu_end     = 1200;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)
@@ -226,7 +231,7 @@ hold all
 
 
 
-end
+
 
 
 % 

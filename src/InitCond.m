@@ -45,11 +45,12 @@ function STATES = InitCond()
 %     
         
     %% NO pathway 
+    global NO_switch
     STATES(ind.NOi)     = 0.05;
     STATES(ind.NOj)     = 0.05;
     STATES(ind.NOn)     = 0.1;
-    STATES(ind.eNOS_act)= 0.7;%3;%!!!!!!!!!!!!!!!!
-    STATES(ind.nNOS_act)= 0.3;%0.3;%!!!!!!!!!!!!!!!!
+    STATES(ind.eNOS_act)= NO_switch*0.7;%3;%!!!!!!!!!!!!!!!!
+    STATES(ind.nNOS_act)= NO_switch*0.3;%0.3;%!!!!!!!!!!!!!!!!
     STATES(ind.Ca_n)    = 0.0001;
     STATES(ind.E_b)     = 1/3; % E_b + E_6c + E_5c = 1 !
     STATES(ind.E_6c)     = 1/3;
