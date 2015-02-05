@@ -196,7 +196,8 @@ SMC(flu.R_NO)           = (state(ind.NOi)/(state(ind.NOi)+K_m_NO)) ;
 %SMC(flu.v_Ca3)          = -45*log10(state(ind.Ca_i)-0.0838) + 223.276*SMC(flu.R_cGMP1) - 292.700*SMC(flu.R_NO) - 198.55;
 % SMC(flu.P_O)            = (state(ind.Ca_i) + c_wi )^2/( (state(ind.Ca_i) + c_wi )^2 + bet_i*exp(-(state(ind.v_i) - SMC(flu.v_Ca3)) / (R_Kfit)) );
 SMC(flu.R_cGMP2)        = (state(ind.cGMP)^2)/(state(ind.cGMP)^2+K_m_mlcp^2);
-SMC(flu.K2_c)           = 15.1392*k_mlcp_b+15.1392*k_mlcp_c*SMC(flu.R_cGMP2);  % 17.64 / 16.75 errechnet sich aus dem Shift, um K2_c = 0.5 bei der baseline zu bekommen - muss vllt noch geaendert werden! 
+% SMC(flu.K2_c)           = 15.1392*k_mlcp_b+15.1392*k_mlcp_c*SMC(flu.R_cGMP2);  % 17.64 / 16.75 errechnet sich aus dem Shift, um K2_c = 0.5 bei der baseline zu bekommen - muss vllt noch geaendert werden! 
+SMC(flu.K2_c)           = 58.1395*k_mlcp_b+58.1395*k_mlcp_c*SMC(flu.R_cGMP2);  % 17.64 / 16.75 errechnet sich aus dem Shift, um K2_c = 0.5 bei der baseline zu bekommen - muss vllt noch geaendert werden! 
 SMC(flu.K5_c)           = SMC(flu.K2_c);
 SMC(flu.kmlcp)          = k_mlcp_b + k_mlcp_c * SMC(flu.R_cGMP2);
 %SMC(flu.Kactivation_i)  =      ( state(ind.Ca_i) + c_w )^2 / ( (state(ind.Ca_i) + c_w)^2 + bet*exp(-(state(ind.v_i) - SMC(flu.v_Ca3))/R_K) );

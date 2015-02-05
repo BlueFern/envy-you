@@ -287,9 +287,9 @@ CaM_thresh = Ca_rest/( Ca_rest*(Q1 + 2*Q1*Q2*Ca_rest + 3*Q1*Q2*Q3*Ca_rest^2 + 4*
 
 % EC**********************
 Oj          = 200;         	% [\muM]; the O2 concentration in the EC
-K_dis       = 9e-2;    		% [\muM s^{-1}]          % = 0.09 [\mu M s^{-1}]
+ K_dis       = 9e-2;    		% [\muM s^{-1}]          % = 0.09 [\mu M s^{-1}]
 K_eNOS      = 4.5e-1;    	% [\muM]            % = 0.45 [\mu M] ; Michaelis constant for dx(eNOS_act)
-mu2         = 0.0167;       % [s^{-1}] ; the rate constant at which the eNOS is deactivated 
+ mu2         = 0.0167;       % [s^{-1}] ; the rate constant at which the eNOS is deactivated 
 g_max       = 0.3;    		% [microM s^{-1}], maximal wss activation - fitted to Kavdia2003; in Comerford2008: 0.06, in Hannahs thesis 17.6, because she mixed up qmax and gmax in Comerford2008 
 alp         = 2;            % [-] (in Wiesner1997: 3)
 W_0         = 1.4;        	% [Pa^{-1}]
@@ -344,8 +344,8 @@ K_mO2_j = 7.7;
 K_mO2_n = 243; % 140-145 uM Chen2007
 
     V_maxNOS    = 25e-3;   		% [\muM] 1.683;%0.025; %2.5e-8;%2.5e-8; %1.683e-4; %1.324; %2.5e-5; % 0.025;% 2.5e-8; %2.4925e-8;  %0.025; %2.0265e-9; % 1.054e-7;  % 1.683;[mM s^{-1}] (Hayashi1999)
-    V_eNOS     = 0.24;         % [-] ; NO production - eNOS concentration ratio (Chen+Popel2006)
+    %V_eNOS     = 0.24;         % [-] ; NO production - eNOS concentration ratio (Chen+Popel2006)
 
 
-V_NOj_max = 0.24; % 1.22; % s^-1, maximum catalytic rate of NO production (Chen2006) - obtained from fig 6 & equ 17 & 18 - we might want to change this value! - Liu: 0.585 micromol / min / (mg of protein)
+V_NOj_max = 1.22;% 0.24; % 1.22; % s^-1, maximum catalytic rate of NO production (Chen2006) - obtained from fig 6 & equ 17 & 18 - we might want to change this value! - Liu: 0.585 micromol / min / (mg of protein)
 V_NOn_max = 4.22; % s^-1, maximum catalytic rate of NO production (Chen2006) - obtained from fig 6 & equ 17 & 18 - we might want to change this value! - Liu: 0.585 micromol / min / (mg of protein)

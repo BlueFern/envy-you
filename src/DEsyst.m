@@ -130,7 +130,9 @@ dy(ind.R)= R0pas_r/nu_r *(state(ind.R)*P_r/SMC(flu.h_r) - E_r * ((state(ind.R) -
        
 % EC
 %        dfdt(ind.eNOS_act)   =                           -mu2*state(ind.eNOS_act)+g_max*EC(flu.F_tau_w) ;              % (104) without the Ca2+ part
-       dy(ind.eNOS_act)   = ((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j)))-mu2*state(ind.eNOS_act)+g_max*EC(flu.F_tau_w) ;          % (104)
+       gam_eNOS = 0.1;
+%        dy(ind.eNOS_act)   = ((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j))) - mu2*state(ind.eNOS_act) + g_max*EC(flu.F_tau_w) ;          % (104)
+       dy(ind.eNOS_act)   = gam_eNOS * ((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j))) - mu2*state(ind.eNOS_act) + (1-gam_eNOS) * g_max*EC(flu.F_tau_w) ;          % (104)
        dy(ind.NOj)        = (V_NOj_max * (state(ind.eNOS_act)) * (Oj/(K_mO2_j+Oj)) * (LArg/(K_mArg+LArg)) ) + ((state(ind.NOi)-state(ind.NOj))/tau_ij)   - k_O2*(state(ind.NOj))^2*Oj - state(ind.NOj)*4*3300/(25^2);
 %        dy(ind.NOj)        = (V_cmax * (state(ind.eNOS_act)) * (LArg/(K_mArg + LArg)) * (Oj/(K_mO2_j+Oj))) - (state(ind.NOj)-state(ind.NOi))/tau_ji   - k_O2*(state(ind.NOj))^2*Oj - state(ind.NOj)*4*3300/(25^2);   % NO concentration in the neuron ; (95)
 
