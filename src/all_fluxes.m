@@ -168,7 +168,7 @@ Glu = getRef(t,'Glu');
 if t_wss_switch == 1
     NE(flu.tau_w) = state(ind.R)*5.7177e5/(2*pi); %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 elseif t_wss_switch == 0
-    NE(flu.tau_w) = 2.0739; %1.82 (bei 20um)
+    NE(flu.tau_w) = 2.0357; %1.82 (bei 20um)
 end
 
 % NE
@@ -206,7 +206,7 @@ SMC(flu.kmlcp)          = k_mlcp_b + k_mlcp_c * SMC(flu.R_cGMP2);
 %SMC(flu.Kactivation_i)  = ((state(ind.Ca_i) + c_w )^2 / ( (state(ind.Ca_i) + c_w)^2 + bet*exp(-(state(ind.v_i) - v_Ca3)/R_K) ));
 % *SMC(flu.Kactivation_i)  = 0.15/2*(1+tanh((state(ind.cGMP)-9.7)))+ ((state(ind.Ca_i) + c_w )^2 / ( (state(ind.Ca_i) + c_w)^2 + bet*exp(-(state(ind.v_i) - v_Ca3)/R_K) ));
 global c_w_switch
-c_w = c_w_switch* (state(ind.cGMP)^7 * 6e-9);  %0; %8e-10*state(ind.cGMP)^7; %!!!!!!!!!!!!!!!!!!!!!!!
+c_w = c_w_switch* (state(ind.cGMP)^8 * 6e-9 - 0.25);  %0; %8e-10*state(ind.cGMP)^7; %!!!!!!!!!!!!!!!!!!!!!!!
 SMC(flu.Kactivation_i)  = ((state(ind.Ca_i) + c_w )^2 / ( (state(ind.Ca_i) + c_w)^2 + bet*exp(-(state(ind.v_i) - v_Ca3)/R_K) ));
 
 % SMC(flu.test)           = (((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j)))-mu2*state(ind.NOj)+g_max*EC(flu.F_tau_w)) - (state(ind.NOj)-state(ind.NOi))/tau_ji - k_O2*(state(ind.NOj))^2*Oj;

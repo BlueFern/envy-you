@@ -336,7 +336,7 @@ k_mlck = 1180;
 
 v_Ca3		= -27; % cGMP and NO dependent
 
-c_wi = 0; % translation factor for Ca dependence of KCa channel activation sigmoidal [microM] 
+% c_w = 0; % translation factor for Ca dependence of KCa channel activation sigmoidal [microM] 
 bet_i= 0.13; % translation factor for membrane potential dependence of KCa channel activation sigmoidal [microM^2] 
 
 K_mArg = 1.5; % in EC and neuron, maybe we want to make it cell-specific like O2! --> Chen2006 & 2007

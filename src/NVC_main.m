@@ -2,7 +2,7 @@ clean
 tic
 
 % global variables
-global CASE J_PLC startpulse lengthpulse C_Hillmann stretch_ch only_Koenig NVU Glu_start Glu_end wss_start wss_end c_w_switch t_wss_switch
+global CASE J_PLC startpulse lengthpulse C_Hillmann stretch_ch only_Koenig NVU Glu_start Glu_end wss_start wss_end c_w_switch t_wss_switch vivi NO_switch
 
 %% NO pathway
 global m %(cGMP coupling (0 - lowest influence to 2 - highest influence))
@@ -16,16 +16,22 @@ lalaa = 1;
 % rcgmp1 = [];
 % vii = [];
 % timee = [];
-c_w_switch = 0;
+c_w_switch = 1;
+
 for t_wss_switch = [0,1]
+
+for NO_switch = [0,1]
+t_wss_switch
+NO_switch
 % for vivi = -100:10:200
+
 %% Parameters to adjust the model:
 t_start = 0;
-t_end = 1000;
-startpulse  = 500;  % (s) 
+t_end = 2000;
+startpulse  = 800;  % (s) 
 lengthpulse = 200;  % (s) 
-Glu_start   = 500;
-Glu_end     = 700;
+Glu_start   = 800;
+Glu_end     = 1000;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)
@@ -54,8 +60,8 @@ output.info.completiontime = toc;
 fprintf('ODE solution time: %.3f seconds\n', output.info.completiontime)
 
 %% Plot statement:
-% plot_all()
-
+% % plot_all()
+% 
 DATA = csvread(csvfilename);
 
 n = zeros(1,9);
@@ -78,7 +84,9 @@ inputoff= tijdoff+ 1;
 
 
 time = DATA(:,length(DATA(1,:))-5);
+
 figure(4), plot(time, state(:,ind.R))
+legend('1','2','3','4')
 hold all
 
 figure(5)
@@ -86,75 +94,87 @@ subplot(2,6,1)
 plot(time, state(:,ind.nNOS_act))
 xlabel('time in s')
 ylabel('[nNOS_{act}]_n in \muM')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,2)
 plot(time, state(:,ind.eNOS_act))
 xlabel('time in s')
 ylabel('[eNOS_{act}]_n in \muM')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,3)
 plot(time, state(:,ind.cGMP))
 xlabel('time in s')
 ylabel('[cGMP] in \muM')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,4)
 plot(time,DATA(:,smcoff+flu.K2_c))
 xlabel('time in s')
 ylabel('K_2 and K_5 (dim.less)')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,5)
 plot(time, state(:,ind.w_i))
 xlabel('time in s')
 ylabel('w_i')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,6)
 plot(time, state(:,ind.R)*1e6)
 ylabel('Radius in um')
 xlabel('time in s')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,7)
 plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
 xlabel('time in s')
 ylabel('[NO] in \muM')
-legend('[NO]_n','[NO]_a','[NO]_j','[NO]_i','Location','NorthWest')
+legend('1[NO]_n','1[NO]_a','1[NO]_j','1[NO]_i','2[NO]_n','2[NO]_a','2[NO]_j','2[NO]_i','3[NO]_n','3[NO]_a','3[NO]_j','3[NO]_i','4[NO]_n','4[NO]_a','4[NO]_j','4[NO]_i','Location','NorthWest')
 hold all
 
 subplot(2,6,8)
 plot(time, DATA(:,smcoff+flu.R_cGMP2))
 ylabel('R\_cGMP2')
 xlabel('time in s')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,9)
 plot(time, DATA(:,smcoff+flu.Act_eNOS_Ca))
 ylabel('Act\_eNOS\_Ca')
 xlabel('time in s')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,10)
 plot(time, DATA(:,smcoff+flu.Act_eNOS_wss))
 ylabel('Act\_eNOS\_wss')
 xlabel('time in s')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,11)
 plot(time, DATA(:,smcoff+flu.P_NOj_eNOS))
 ylabel('P\_NOj\_eNOS')
 xlabel('time in s')
+legend('1','2','3','4')
 hold all
 
 subplot(2,6,12)
 plot(time, DATA(:,neoff+flu.tau_w))
 ylabel('tau\_wss')
 xlabel('time in s')
+legend('1','2','3','4')
 hold all
 
+end
 end
 
 % 
@@ -196,6 +216,10 @@ end
 % % end
 % 
 % 
+
+
+
+
 % vi(lalaa)   = vivi;
 % Po(lalaa)   = DATA(end,smcoff+flu.Kactivation_i);
 % vca3(lalaa) = DATA(end,smcoff+flu.v_Ca3);
@@ -207,7 +231,25 @@ end
 % 
 % figure, plot(vi,wi); xlabel('vi'), ylabel('wi')
 % figure, plot(vi,Po); xlabel('vi'), ylabel('Kact')
+% figure, plot(cai,wi); xlabel('cai'), ylabel('wi')
+% figure, plot(cai,Po); xlabel('cai'), ylabel('Kact')
 % 
+% figure(112), plot(time, state(:,ind.cGMP))
+% hold all
+% figure(113), plot(time, state(:,ind.R))
+% hold all
+% end
+
+
+
+
+
+
+
+
+
+
+
 % % figure; plot(time,DATA(:,smcoff+flu.M)+state(:,ind.AMp)+state(:,ind.AM)+state(:,ind.Mp)); hold on;
 % % plot(time,DATA(:,smcoff+flu.M),'r'); plot(time,state(:,ind.Mp),'g'); plot(time,state(:,ind.AMp),'b');plot(time,state(:,ind.AM),'k');
 % % legend('Total Myosin','[M]','[Mp]','[AMp]','[AM]')
