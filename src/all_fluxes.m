@@ -166,9 +166,9 @@ end
 Glu = getRef(t,'Glu');
 % tau_w = getRef(t,'wss');
 if t_wss_switch == 1
-    NE(flu.tau_w) = state(ind.R)*5.732e5/(2*pi); %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    NE(flu.tau_w) = state(ind.R)*5.7177e5/(2*pi); %!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 elseif t_wss_switch == 0
-    NE(flu.tau_w) = 1.82;
+    NE(flu.tau_w) = 2.0739; %1.82 (bei 20um)
 end
 
 % NE
@@ -210,6 +210,9 @@ c_w = c_w_switch* (state(ind.cGMP)^7 * 6e-9);  %0; %8e-10*state(ind.cGMP)^7; %!!
 SMC(flu.Kactivation_i)  = ((state(ind.Ca_i) + c_w )^2 / ( (state(ind.Ca_i) + c_w)^2 + bet*exp(-(state(ind.v_i) - v_Ca3)/R_K) ));
 
 % SMC(flu.test)           = (((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j)))-mu2*state(ind.NOj)+g_max*EC(flu.F_tau_w)) - (state(ind.NOj)-state(ind.NOi))/tau_ji - k_O2*(state(ind.NOj))^2*Oj;
+SMC(flu.Act_eNOS_Ca)   =  ((K_dis*state(ind.Ca_j))/(K_eNOS+state(ind.Ca_j))); 
+SMC(flu.Act_eNOS_wss)  = g_max*EC(flu.F_tau_w) ;      
+SMC(flu.P_NOj_eNOS)    = V_NOj_max * (state(ind.eNOS_act)) ;
 
 
 end

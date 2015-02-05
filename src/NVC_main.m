@@ -17,7 +17,7 @@ lalaa = 1;
 % vii = [];
 % timee = [];
 c_w_switch = 0;
-for t_wss_switch = [0]
+for t_wss_switch = [0,1]
 % for vivi = -100:10:200
 %% Parameters to adjust the model:
 t_start = 0;
@@ -60,7 +60,7 @@ DATA = csvread(csvfilename);
 
 n = zeros(1,9);
 a = zeros(1,31);
-s = zeros(1,34);
+s = zeros(1,37);
 e = zeros(1,19);
 f= zeros(1,42); 
 dfdt= zeros(1,42);
@@ -82,54 +82,79 @@ figure(4), plot(time, state(:,ind.R))
 hold all
 
 figure(5)
-subplot(2,4,1)
+subplot(2,6,1)
 plot(time, state(:,ind.nNOS_act))
 xlabel('time in s')
 ylabel('[nNOS_{act}]_n in \muM')
 hold all
 
-subplot(2,4,2)
+subplot(2,6,2)
 plot(time, state(:,ind.eNOS_act))
 xlabel('time in s')
 ylabel('[eNOS_{act}]_n in \muM')
 hold all
 
-subplot(2,4,3)
+subplot(2,6,3)
 plot(time, state(:,ind.cGMP))
 xlabel('time in s')
 ylabel('[cGMP] in \muM')
 hold all
 
-subplot(2,4,4)
+subplot(2,6,4)
 plot(time,DATA(:,smcoff+flu.K2_c))
 xlabel('time in s')
 ylabel('K_2 and K_5 (dim.less)')
 hold all
 
-subplot(2,4,5)
+subplot(2,6,5)
 plot(time, state(:,ind.w_i))
 xlabel('time in s')
 ylabel('w_i')
 hold all
 
-subplot(2,4,6)
+subplot(2,6,6)
 plot(time, state(:,ind.R)*1e6)
 ylabel('Radius in um')
 xlabel('time in s')
 hold all
 
-subplot(2,4,7)
+subplot(2,6,7)
 plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
 xlabel('time in s')
 ylabel('[NO] in \muM')
 legend('[NO]_n','[NO]_a','[NO]_j','[NO]_i','Location','NorthWest')
 hold all
 
-subplot(2,4,8)
+subplot(2,6,8)
 plot(time, DATA(:,smcoff+flu.R_cGMP2))
 ylabel('R\_cGMP2')
 xlabel('time in s')
 hold all
+
+subplot(2,6,9)
+plot(time, DATA(:,smcoff+flu.Act_eNOS_Ca))
+ylabel('Act\_eNOS\_Ca')
+xlabel('time in s')
+hold all
+
+subplot(2,6,10)
+plot(time, DATA(:,smcoff+flu.Act_eNOS_wss))
+ylabel('Act\_eNOS\_wss')
+xlabel('time in s')
+hold all
+
+subplot(2,6,11)
+plot(time, DATA(:,smcoff+flu.P_NOj_eNOS))
+ylabel('P\_NOj\_eNOS')
+xlabel('time in s')
+hold all
+
+subplot(2,6,12)
+plot(time, DATA(:,neoff+flu.tau_w))
+ylabel('tau\_wss')
+xlabel('time in s')
+hold all
+
 end
 
 % 

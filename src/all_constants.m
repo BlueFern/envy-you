@@ -288,9 +288,9 @@ CaM_thresh = Ca_rest/( Ca_rest*(Q1 + 2*Q1*Q2*Ca_rest + 3*Q1*Q2*Q3*Ca_rest^2 + 4*
 % EC**********************
 Oj          = 200;         	% [\muM]; the O2 concentration in the EC
  K_dis       = 9e-2;    		% [\muM s^{-1}]          % = 0.09 [\mu M s^{-1}]
-K_eNOS      = 4.5e-1;    	% [\muM]            % = 0.45 [\mu M] ; Michaelis constant for dx(eNOS_act)
+ K_eNOS      = 4.5e-1;    	% [\muM]            % = 0.45 [\mu M] ; Michaelis constant for dx(eNOS_act)
  mu2         = 0.0167;       % [s^{-1}] ; the rate constant at which the eNOS is deactivated 
-g_max       = 0.3;    		% [microM s^{-1}], maximal wss activation - fitted to Kavdia2003; in Comerford2008: 0.06, in Hannahs thesis 17.6, because she mixed up qmax and gmax in Comerford2008 
+ g_max       = 0.06; %0.3;    		% [microM s^{-1}], maximal wss activation - fitted to Kavdia2003; in Comerford2008: 0.06, in Hannahs thesis 17.6, because she mixed up qmax and gmax in Comerford2008 
 alp         = 2;            % [-] (in Wiesner1997: 3)
 W_0         = 1.4;        	% [Pa^{-1}]
 delt_wss    = 2.86 ;        % [Pa] ; the membrane shear modulus

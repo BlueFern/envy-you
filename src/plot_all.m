@@ -7,7 +7,7 @@ linestylle = ':';
 
 n = zeros(1,9);
 a = zeros(1,31);
-s = zeros(1,34);
+s = zeros(1,37);
 e = zeros(1,19);
 f= zeros(1,42); 
 dfdt= zeros(1,42);

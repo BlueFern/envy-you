@@ -147,6 +147,10 @@ flu.R_cGMP2         = k+6;
 flu.K2_c            = k+7;  
 flu.K5_c            = k+8; 
 flu.kmlcp           = k+9; 
+flu.Act_eNOS_Ca     = k+10;
+flu.Act_eNOS_wss    = k+11;
+flu.P_NOj_eNOS      = k+12;
+
 %% EC-pointers
 
 flu.v_coup_j         = 1;
