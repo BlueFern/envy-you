@@ -1,4 +1,4 @@
-%clean
+clean
 tic
 
 % global variables
@@ -28,9 +28,9 @@ lalaa = 1;
 % NO_switch = switch1;
 %     
 
-c_w_switch = 0;
+c_w_switch = 1;
 t_wss_switch = 0;
-NO_switch = 0;
+for NO_switch = [0,1];
     
 c_w_switch
 t_wss_switch
@@ -230,7 +230,7 @@ legend('1','2','3','4','5','6','7','8')
 hold all
 
 
-
+end
 
 
 

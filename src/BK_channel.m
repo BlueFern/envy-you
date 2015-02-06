@@ -51,10 +51,15 @@ end
 %% cGMP - c_w
 %clear all
 
-const1 = 0.0001; % shift in x-dir - the lower, the more right
-const2 = 2; % steepness - the higher the steeper
-const3 = 0; % shift in x-dir ??
-const4 = 100000; % shift in x-dir - the higher, the more right
+% const1 = 0.0001; % shift in x-dir - the lower, the more right
+% const2 = 2; % steepness - the higher the steeper
+% const3 = 0; % shift in x-dir ??
+% const4 = 1000000; % shift in x-dir - the higher, the more right
+
+% const1 = 0.0001; % shift in x-dir - the lower, the more right
+% const2 = 2; % steepness - the higher the steeper
+% const3 = 0; % shift in x-dir ??
+% const4 = 100000; % shift in x-dir - the higher, the more right
 
 %best best
 % const1 = 0.0001; % shift in x-dir - the lower, the more right
@@ -63,9 +68,15 @@ const4 = 100000; % shift in x-dir - the higher, the more right
 % const4 = 100000; % shift in x-dir - the higher, the more right
 
 % best: 
+const1 = 0.0000001; % shift in x-dir - the lower, the more right
+const2 = 3; % steepness - the higher the steeper
+const3 = 1; % shift in x-dir ??
+const4 = 10000000; % shift in x-dir - the higher, the more right
+
+%I took this one:
 % const1 = 0.0000001; % shift in x-dir - the lower, the more right
 % const2 = 3; % steepness - the higher the steeper
-% const3 = 1; % shift in x-dir ??
+% const3 = 0; % shift in x-dir ??
 % const4 = 10000000; % shift in x-dir - the higher, the more right
 
 % const1 = 0.0000000001; % shift in x-dir - the lower, the more right
