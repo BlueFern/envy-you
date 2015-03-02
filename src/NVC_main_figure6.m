@@ -2,7 +2,7 @@ clean
 tic
 
 % global variables
-global CASE J_PLC startpulse lengthpulse C_Hillmann stretch_ch only_Koenig NVU Glu_start Glu_end wss_start wss_end c_w_switch t_wss_switch vivi NO_switch
+global CASE J_PLC startpulse lengthpulse C_Hillmann stretch_ch only_Koenig NVU Glu_start Glu_end wss_start wss_end c_w_switch t_wss_switch vivi nNOS_switch eNOS_switch
 
 %% NO pathway
 global m %(cGMP coupling (0 - lowest influence to 2 - highest influence))
@@ -30,20 +30,21 @@ lalaa = 1;
 
 for c_w_switch = [1];
 for t_wss_switch = [1];
-for NO_switch = [1];
-    
+nNOS_switch = 1;
+eNOS_switch = 1;
+
 c_w_switch
 t_wss_switch
-NO_switch
+
 % for vivi = -100:10:200
 
 %% Parameters to adjust the model:
 t_start = 0;
-t_end = 1200;
-startpulse  = 600;  % (s) 
-lengthpulse = 200;  % (s) 
-Glu_start   = 600;
-Glu_end     = 800;
+t_end = 1000;
+startpulse  = 200;  % (s) 
+lengthpulse = 2000;  % (s) 
+Glu_start   = startpulse;
+Glu_end     = startpulse + lengthpulse;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)
@@ -64,7 +65,7 @@ try
 delete(csvfilename) % remove file, if present from older simulation.
 end
 %% Solve the proces from initial position tot Steady State:
-options = odeset('OutputFcn',@odeprogWD,'Events',@odeabort,'Stats','on'); %,'RelTol', 1e-03, 'AbsTol', 1e-06, 'MaxStep', 1); 
+options = odeset('OutputFcn',@odeprogWD,'Events',@odeabort,'Stats','on');%,'RelTol', 1e-03, 'AbsTol', 1e-06, 'MaxStep', 1); 
 [t,state] = ode15s(@DEsyst,[t_start t_end],state0,options);
 
 %% Write output and info to file/cmd
@@ -80,8 +81,8 @@ n = zeros(1,9);
 a = zeros(1,31);
 s = zeros(1,37);
 e = zeros(1,19);
-f= zeros(1,42); 
-dfdt= zeros(1,42);
+f= zeros(1,48); 
+dfdt= zeros(1,48);
 t= zeros(3,1);
 input= zeros(1,3);
 
@@ -97,142 +98,74 @@ inputoff= tijdoff+ 1;
 
 time = DATA(:,length(DATA(1,:))-5);
 
-figure(4), plot(time, state(:,ind.R))
-legend('1','2','3','4','5','6','7','8')
+%% FIG6
+figure(7)
+set(gcf, 'Position', [400 300 700 300]);
+plot(time, state(:,ind.NOn),time, state(:,ind.NOk),time, state(:,ind.NOj),time, state(:,ind.NOi),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[NO] (\muM)')
+legend('NE','AC','EC','SMC','Location','NorthWest')
+hold all
+% ylim([20 32]);
 hold all
 
-figure(5)
-subplot(2,6,1)
-plot(time, state(:,ind.nNOS_act))
-xlabel('time in s')
-ylabel('[nNOS_{act}]_n in \muM')
-legend('1','2','3','4','5','6','7','8')
+figure(13)
+set(gcf, 'Position', [400 300 700 300]);
+plot(time, state(:,ind.NOn_max),time, state(:,ind.NOk_max),time, state(:,ind.NOj_max),time, state(:,ind.NOi_max),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[NO] (\muM)')
+legend('NE\_max','AC\_max','EC\_max','SMC\_max','Location','NorthWest')
+hold all
+% ylim([20 32]);
 hold all
 
-subplot(2,6,2)
-plot(time, state(:,ind.eNOS_act))
-xlabel('time in s')
-ylabel('[eNOS_{act}]_n in \muM')
-legend('1','2','3','4','5','6','7','8')
+figure(8)
+set(gcf, 'Position', [400 300 700 300]);
+y = [state(end,ind.NOn) state(end,ind.NOk) state(end,ind.NOi) state(end,ind.NOj)];
+bar(y,0.4)
+ylabel('[NO] (\muM)')
 hold all
 
-subplot(2,6,3)
-plot(time, state(:,ind.cGMP))
-xlabel('time in s')
-ylabel('[cGMP] in \muM')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,4)
-plot(time,DATA(:,smcoff+flu.K2_c))
-xlabel('time in s')
-ylabel('K_2 and K_5 (dim.less)')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,5)
-plot(time, state(:,ind.w_i))
-xlabel('time in s')
-ylabel('w_i')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,6)
-plot(time, state(:,ind.R)*1e6)
-ylabel('Radius in um')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,7)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
-xlabel('time in s')
-ylabel('[NO] in \muM')
-legend('1[NO]_n','1[NO]_a','1[NO]_j','1[NO]_i','2[NO]_n','2[NO]_a','2[NO]_j','2[NO]_i','3[NO]_n','3[NO]_a','3[NO]_j','3[NO]_i','4[NO]_n','4[NO]_a','4[NO]_j','4[NO]_i','Location','NorthWest')
-hold all
-
-subplot(2,6,8)
-plot(time, DATA(:,smcoff+flu.R_cGMP2))
-ylabel('R\_cGMP2')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,9)
-plot(time, DATA(:,smcoff+flu.Act_eNOS_Ca))
-ylabel('Act\_eNOS\_Ca')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,10)
-plot(time, DATA(:,smcoff+flu.Act_eNOS_wss))
-ylabel('Act\_eNOS\_wss')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,11)
-plot(time, DATA(:,smcoff+flu.P_NOj_eNOS))
-ylabel('P\_NOj\_eNOS')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,6,12)
-plot(time, DATA(:,neoff+flu.tau_w))
-ylabel('tau\_wss')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
+figure(12)
+set(gcf, 'Position', [400 300 700 300]);
+y = [state(end,ind.NOn_max) state(end,ind.NOk_max) state(end,ind.NOi_max) state(end,ind.NOj_max)];
+bar(y,0.4)
+ylabel('[NO] (\muM)')
 hold all
 
 
-figure(6)
-subplot(2,3,1)
-[hAx] = plotyy(time, state(:,ind.nNOS_act),time, state(:,ind.eNOS_act));
-xlabel('time in s')
-ylabel(hAx(1),'[nNOS_{act}]_n in \muM')
-ylabel(hAx(2),'[eNOS_{act}]_n in \muM')
-hold all
+% figure(9)
+% set(gcf, 'Position', [400 300 700 300]);
+% y = [1.0615 0.2003; 0.6621 0.1438; 0.2627 0.08725; 0.2538 0.08598];
+% bar(y) %,0.4)
+% ylabel('[NO] (\muM)')
+% legend('[NO]_n', '[NO]_j')
+% hold all
 
-subplot(2,3,2)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
-xlabel('time in s')
-ylabel('[NO] in \muM')
-legend('neuron','astrocyte','endothelial cell','smooth muscle cell','Location','NorthWest')
-hold all
 
-subplot(2,3,3)
-plot(time, state(:,ind.cGMP))
-xlabel('time in s')
-ylabel('[cGMP] in \muM')
-hold all
+% figure(10)
+% set(gcf, 'Position', [400 300 700 300]);
+% NOn = 1.0615;
+% NOj = 0.2003; %0.08598;
+% set(gcf, 'Position', [400 300 700 300]);
+% y = [1.0615/NOn 0.2003/NOj; 0.6621/NOn 0.1438/NOj; 0.2627/NOn 0.08725/NOj; 0.2538/NOn 0.08598/NOj];
+% bar(y) %,0.4)
+% ylabel('[NO] (\muM)')
+% legend('[NO]_n', '[NO]_j')
 
-subplot(2,3,4)
-plot(time,DATA(:,smcoff+flu.K2_c))
-xlabel('time in s')
-ylabel('K_2 and K_5 (dim.less)')
-legend('1','2','3','4','5','6','7','8')
-hold all
+% figure(11)
+% set(gcf, 'Position', [400 300 700 300]);
+% y = [1.065 1.0615 0.2003; 0.6656 0.6621 0.1438; 0.2663 0.2627 0.08725; 0.2573 0.2538 0.08598];
+% bar(y) %,0.4)
+% Labels = {'NE', 'AC', 'SMC', 'EC'};
+% set(gca, 'XTick', 1:4, 'XTickLabel', Labels);
+% ylabel('[NO] (\muM)')
+% legend('maximum neuronal and endothelial NO release', 'only neuronal NO release', 'only endothelial NO release')
 
-subplot(2,3,5)
-plot(time, state(:,ind.w_i))
-xlabel('time in s')
-ylabel('w_i')
-legend('1','2','3','4','5','6','7','8')
-hold all
-
-subplot(2,3,6)
-plot(time, state(:,ind.R)*1e6)
-ylabel('Radius in um')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
-hold all
 
 
 end
 
-end
 end
 
 % 

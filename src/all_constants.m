@@ -253,18 +253,15 @@ V_nNOS      = 1.435;        % [-] ; NO production - nNOS concentration ratio (Ch
 
 K_actNOS    = 9.27e-2;      % [microM]
 
-%tau_ni      = 0.01;       	% [s]; time for NO to diffuse the distance between the neuron and SMC ; estimation
-%tau_ji      = 0.01;        % [s]; time for NO to diffuse the distance between the EC and SMC ; estimation
 D_NO 		= 3300;			% [\muM^2 s^{-1}] ; NO diffusion coefficient 
 % dist_ni		= 50;			% [\mu m] ; estimation
-
-dist_na     = 25;
-dist_ai     = 25;
+dist_nk     = 25;
+dist_ki     = 25;
 dist_ij		= 3.75;			% [\mu m] ; Kavdia 2002
 
-% tau_ni      = dist_ni^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
-tau_na      = dist_na^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
-tau_ai      = dist_ai^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
+% tau_ni      = dist_ni^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997 - time for NO to diffuse the distance between NE & SMC
+tau_nk      = dist_nk^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997 
+tau_ki      = dist_ki^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
 tau_ij      = dist_ij^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997
 
 k_O2        = 9.6e-6;       % [microM^{-2} s^{-1}] 

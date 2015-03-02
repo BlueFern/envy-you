@@ -39,11 +39,11 @@ NO_switch
 
 %% Parameters to adjust the model:
 t_start = 0;
-t_end = 1200;
-startpulse  = 600;  % (s) 
+t_end = 1000;
+startpulse  = 400;  % (s) 
 lengthpulse = 200;  % (s) 
-Glu_start   = 600;
-Glu_end     = 800;
+Glu_start   = 400;
+Glu_end     = 600;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)
@@ -130,6 +130,13 @@ ylabel('K_2 and K_5 (dim.less)')
 legend('1','2','3','4','5','6','7','8')
 hold all
 
+% subplot(2,6,5)
+% plot(time, state(:,ind.w_i))
+% xlabel('time in s')
+% ylabel('w_i')
+% legend('1','2','3','4','5','6','7','8')
+% hold all
+
 subplot(2,6,5)
 plot(time, state(:,ind.w_i))
 xlabel('time in s')
@@ -186,47 +193,64 @@ xlabel('time in s')
 legend('1','2','3','4','5','6','7','8')
 hold all
 
-
+%% FIG1
 figure(6)
-subplot(2,3,1)
-[hAx] = plotyy(time, state(:,ind.nNOS_act),time, state(:,ind.eNOS_act));
-xlabel('time in s')
-ylabel(hAx(1),'[nNOS_{act}]_n in \muM')
-ylabel(hAx(2),'[eNOS_{act}]_n in \muM')
+set(gcf, 'Position', [400 300 800 600]);
+subplot(3,2,1)
+% [hAx] = plotyy(time, state(:,ind.nNOS_act),time, state(:,ind.eNOS_act));
+% xlabel('Time (s)');
+% ylabel(hAx(1),'[nNOS_{act}]_n (\muM)');
+% ylabel(hAx(2),'[eNOS_{act}]_j (\muM)');
+plot(time, state(:,ind.nNOS_act),time, state(:,ind.eNOS_act),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[NOS_{act}] (\muM)');
+legend('nNOS','eNOS','Location','NorthWest')
 hold all
 
-subplot(2,3,2)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
-xlabel('time in s')
-ylabel('[NO] in \muM')
-legend('neuron','astrocyte','endothelial cell','smooth muscle cell','Location','NorthWest')
+subplot(3,2,2)
+plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[NO] (\muM)')
+legend('NE','AC','EC','SMC','Location','NorthWest')
 hold all
 
-subplot(2,3,3)
-plot(time, state(:,ind.cGMP))
-xlabel('time in s')
-ylabel('[cGMP] in \muM')
+subplot(3,2,3)
+plot(time, state(:,ind.cGMP),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[cGMP] (\muM)')
 hold all
 
-subplot(2,3,4)
-plot(time,DATA(:,smcoff+flu.K2_c))
-xlabel('time in s')
+subplot(3,2,4)
+plot(time,DATA(:,smcoff+flu.K2_c),'LineWidth',1);
+xlabel('Time (s)');
 ylabel('K_2 and K_5 (dim.less)')
-legend('1','2','3','4','5','6','7','8')
+ylim([1.8 2.1]);
+% legend('1','2','3','4','5','6','7','8')
 hold all
 
-subplot(2,3,5)
-plot(time, state(:,ind.w_i))
-xlabel('time in s')
-ylabel('w_i')
-legend('1','2','3','4','5','6','7','8')
+subplot(3,2,5)
+plot(time, state(:,ind.w_i),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('w_i (dim.less)')
+% legend('1','2','3','4','5','6','7','8')
 hold all
 
-subplot(2,3,6)
-plot(time, state(:,ind.R)*1e6)
-ylabel('Radius in um')
-xlabel('time in s')
-legend('1','2','3','4','5','6','7','8')
+subplot(3,2,6)
+plot(time, state(:,ind.R)*1e6,'LineWidth',1);
+ylabel('Radius (\mum)')
+xlabel('Time (s)');
+ylim([20 32]);
+% legend('1','2','3','4','5','6','7','8')
+hold all
+
+%% FIG2
+figure(7)
+set(gcf, 'Position', [400 300 700 300]);
+plot(time, state(:,ind.R)*1e6,'LineWidth',1);
+ylabel('Radius (\mum)')
+xlabel('Time (s)');
+ylim([20 32]);
+% legend('1','2','3','4','5','6','7','8')
 hold all
 
 

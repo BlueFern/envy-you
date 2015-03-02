@@ -1,7 +1,7 @@
 function STATES = InitCond()
     % Below the initial conditions of the differential equation are given.
     % They are chosen, such that the system is in steady state at t=0
-    global vivi
+    global vivi caicai ccGMP
     all_indices()
     
     STATES(ind.R_k)     = 0.061e-6;     %'wi in component wi (metre)'
@@ -45,18 +45,26 @@ function STATES = InitCond()
 %     
         
     %% NO pathway 
-    global NO_switch
-    STATES(ind.NOi)     = 0.05;
-    STATES(ind.NOj)     = 0.05;
-    STATES(ind.NOn)     = 0.1;
-    STATES(ind.eNOS_act)= NO_switch*0.7;%3;%!!!!!!!!!!!!!!!!
-    STATES(ind.nNOS_act)= NO_switch*0.3;%0.3;%!!!!!!!!!!!!!!!!
+    global nNOS_switch eNOS_switch 
     STATES(ind.Ca_n)    = 0.0001;
+    STATES(ind.nNOS_act)= nNOS_switch*0.3;
+    STATES(ind.NOn)     = 0.1; 
+    STATES(ind.nNOS_act_max)= nNOS_switch*0.3;
+    STATES(ind.NOn_max)     = 0.1;
+
+    
+    STATES(ind.NOi)     = 0.05; %0.07
+    STATES(ind.NOj)     = 0.05; %0.07
+    STATES(ind.cGMP)    = 8;
+    STATES(ind.eNOS_act)= eNOS_switch*0.7;
+    STATES(ind.NOj_max)     = 0.05;
+    STATES(ind.NOi_max)     = 0.05;
+    STATES(ind.NOk_max)     = 0.1;
+    STATES(ind.eNOS_act_max)= eNOS_switch*0.7;
     STATES(ind.E_b)     = 1/3; % E_b + E_6c + E_5c = 1 !
     STATES(ind.E_6c)     = 1/3;
     STATES(ind.E_5c)    = 1/3;
-    STATES(ind.cGMP)    = 8;
     STATES(ind.M_Y)     = 0.5; %M_Y + Mp_Y = 1 !
     STATES(ind.Mp_Y)    = 0.5; 
-    STATES(ind.NOa)     = 0.1;
+    STATES(ind.NOk)     = 0.1;
 end

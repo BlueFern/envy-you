@@ -96,4 +96,6 @@ for i = 0:20
     c_w(j) = const1 / (const1 + const4 * (exp(-cGMP(j) * const2 - const3)));
 end
 figure(14), plot(cGMP,c_w)
+xlabel('cGMP')
+ylabel('c_w')
 hold all

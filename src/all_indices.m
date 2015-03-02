@@ -39,19 +39,25 @@ ind.I_k     = 28; % uM - IP3 concentration in the Astrocyte cytosol
 ind.EET_k   = 29; % uM - EET concentration in the Astrocyte cytosol 
 %% NO pathway - ODE
 i = ind.EET_k ;
-ind.NOi             = i+1;        % NO concentration in the SMC
-ind.NOj             = i+2;        % NO concentration in the EC
+ind.Ca_n            = i+1;        % the calcium concentration in the neuron in n
+ind.nNOS_act        = i+2;        % activation and deactivation of nNOS
 ind.NOn             = i+3;        % NO concentration in the neuron
-ind.cGMP            = i+4;  
-ind.eNOS_act        = i+5;        % activation and deactivation of eNOS
-ind.nNOS_act        = i+6;        % activation and deactivation of nNOS
-ind.Ca_n            = i+7;        % the calcium concentration in the neuron in n
-ind.E_b             = i+8;  
-ind.E_6c            = i+9;  
-ind.E_5c            = i+10;  
-ind.M_Y             = i+11; 
-ind.Mp_Y            = i+12; 
-ind.NOa             = i+13;        % NO concentration in the AC
+ind.nNOS_act_max    = i+4;        % maximum activation and deactivation of nNOS
+ind.NOn_max         = i+5;        % maximum NO concentration in the neuron
+ind.NOk             = i+6;        % NO concentration in the AC
+ind.NOk_max         = i+7;        % maximum NO concentration in the AC
+ind.NOi             = i+8;        % NO concentration in the SMC
+ind.NOi_max         = i+9;        % maximum NO concentration in the SMC
+ind.E_b             = i+10;  
+ind.E_6c            = i+11;  
+ind.E_5c            = i+12; 
+ind.cGMP            = i+13;  
+ind.eNOS_act        = i+14;        % activation and deactivation of eNOS
+ind.NOj             = i+15;        % NO concentration in the EC
+ind.eNOS_act_max    = i+16;        % maximum activation and deactivation of eNOS
+ind.NOj_max         = i+17;        % maximum NO concentration in the EC
+ind.M_Y             = i+18; 
+ind.Mp_Y            = i+19; 
 
 %% NO pathway - fluxes NE
 j = 1;

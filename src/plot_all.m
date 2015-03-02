@@ -9,8 +9,8 @@ n = zeros(1,9);
 a = zeros(1,31);
 s = zeros(1,37);
 e = zeros(1,19);
-f= zeros(1,42); 
-dfdt= zeros(1,42);
+f= zeros(1,46); 
+dfdt= zeros(1,46);
 t= zeros(3,1);
 input= zeros(1,3);
 
