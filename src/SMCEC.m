@@ -104,7 +104,10 @@ classdef SMCEC < handle
                 J_stretch_j - J_Ca_coup_i;
             du(idx.s_j, :) = J_ER_uptake_j - J_CICR_j - J_ER_leak_j;
             du(idx.v_j, :) = -1/p.C_m_j * (J_K_j + J_R_j) - V_coup_i;
+            %% ------------------------------------------------------------------
             du(idx.I_j, :) = p.J_PLC - J_degrad_j - J_IP3_coup_i;
+            %du(idx.I_j, :) = p.J_PLC - J_degrad_j+ J_IP3_coup_i;
+            %%
             du = bsxfun(@times, self.enabled, du);
             
             if nargout == 2
@@ -303,7 +306,7 @@ parser.addParameter('z_5', -7.4e-2); %uM mV^-1 s^-1
 
 parser.addParameter('J_0_j', 0.029); %constant Ca influx (EC)
 
-parser.addParameter('J_PLC', 0.18);
+parser.addParameter('J_PLC', 0.18); % ------------------------------------------------
 
 
 parser.parse(varargin{:})
