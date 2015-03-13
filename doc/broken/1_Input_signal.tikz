@@ -8,7 +8,6 @@
 % 
 % 
 % 
-\tiny 
 \newlength\figureheight 
 \newlength\figurewidth 
 \setlength\figureheight{3 cm} 

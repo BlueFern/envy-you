@@ -1,5 +1,9 @@
 \section{Release notes}
 
+%\begin{equation}
+%\sum\limits_{i=1}^n i^2 = \frac{n(n+1)(2n+1)}{6}
+%\end{equation}
+
 \subsection{Adaptations to the astrocyte model}
 In the creation of NVU 1.1 the work of Farr\& David(2011) \cite{Farr2011} was implemented in NVU 1.0. This means that several pathways were added and equations were combined. First a glutamate release in the synaptic cleft was simulated by creating a smooth pulse function, $\rho$, describing the ratio of bound to total glutamate receptors on the synapse end of the astrocyte. This induces an \gls{IP3} release into the cell, causing the release of Calcium from the \gls{ER} into the cytosol, which on his turn leads to the production of EET. The open state of the BK-channels in NVU 1.0 depends only on the membrane voltage, in NVU 1.1 the opening of BK-channels is regulated by the membrane voltage as well as the EET and \gls{Ca} concentration. Furthermore, several corrections, proposed by de Kock \& van der Donck (2013) \cite{LoesEvert}, on the model by Farr were included. These corrections include an equation to describe the buffering parameter in the \gls{Ca} conservation equation (Farr \cite{Farr2011} used a constant to describe this parameter) and some changes in parameter values.
 
@@ -147,11 +151,12 @@ A mistake was discovered in NVU1.0 for the equation used to describe the \gls{K}
 \begin{figure}[h!]
 	\centering
 	\tiny 
-				\newlength\figureheight 
-				\newlength\figurewidth 
+%				\newlength\figureheight 
+%				\newlength\figurewidth 
 	\setlength\figureheight{5 cm} 
 	\setlength\figurewidth{15 cm}
-	\input{figures/diff_cor.tikz}
+%	\input{figures/diff_cor.tikz}
+	\includegraphics[width=15cm]{figures/diff_cor.pdf}
 	\caption{The flux through the BK-channel in \uM m/s for the old (blue) and corrected (red) simulation }
 	\label{fig:cordif}
 \end{figure}

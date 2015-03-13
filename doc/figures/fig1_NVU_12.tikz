@@ -8,6 +8,11 @@
 % 
 % 
 % 
+\tiny 
+\newlength\figureheight 
+\newlength\figurewidth 
+\setlength\figureheight{2 cm} 
+\setlength\figurewidth{18 cm}
 \begin{tikzpicture}
 
 \begin{axis}[%

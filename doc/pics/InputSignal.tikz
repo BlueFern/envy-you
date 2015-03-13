@@ -8,6 +8,11 @@
 % 
 % 
 % 
+\newlength\figureheight 
+\newlength\figurewidth 
+\setlength\figureheight{6cm} 
+\setlength\figurewidth{10cm}
+
 \begin{tikzpicture}
 
 \begin{axis}[%

@@ -8,6 +8,14 @@
 % 
 % 
 % 
+
+\begin{landscape}
+\tiny 
+\newlength\figureheight 
+\newlength\figurewidth 
+\setlength\figureheight{3cm}
+\setlength\figurewidth{3cm}
+
 \begin{tikzpicture}
 
 \begin{axis}[%
@@ -11910,4 +11918,6 @@ table[row sep=crcr]{
 500 -0.015443\\
 };
 \end{axis}
-\end{tikzpicture}%
+\end{tikzpicture}
+
+\end{landscape} %
