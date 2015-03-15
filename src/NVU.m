@@ -1,4 +1,7 @@
 classdef NVU < handle
+    % The 'NVU' Code wraps the three subcodes (Astrocyte, SMCEC and Wall
+    %   Mechanics) together to be solved by the ode15s solver for stiff
+    %   problems. 
     properties
         astrocyte
         wall
@@ -69,7 +72,7 @@ classdef NVU < handle
             f = @(t, u) self.rhs(t, u);
             tic
             [self.T, self.U] = ode15s(f, self.T, self.u0, self.odeopts);
-            % Now evaluate all of the additional bits and pieces
+            % Now evaluate all of the additional parameters
             ua = self.U(:, self.i_astrocyte).';
             us = self.U(:, self.i_smcec).';
             uw = self.U(:, self.i_wall).';

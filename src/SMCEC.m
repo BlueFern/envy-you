@@ -1,4 +1,8 @@
 classdef SMCEC < handle
+    % The 'SMCEC' code contains the following sections of the model:
+    %   The Smooth Muscle cell and the Endothelial Cell
+    %   Please refer to the relevient sections in the documentation for 
+    %   full information on the equations and variable names.
     properties
         params
         u0
@@ -16,6 +20,7 @@ classdef SMCEC < handle
             [self.idx_out, self.n_out] = output_indices();
         end
         function [du, varargout] = rhs(self, t, u, R, h, K_p)
+            % Initalise inputs and parameters
             p = self.params;
             idx = self.index;
             
@@ -24,13 +29,12 @@ classdef SMCEC < handle
             v_i = u(idx.v_i, :);
             w_i = u(idx.w_i, :);
             I_i = u(idx.I_i, :);
-            % K_i = u(idx.K_i, :); not currently used anywhere
             Ca_j = u(idx.Ca_j, :);
             s_j = u(idx.s_j, :);
             v_j = u(idx.v_j, :);
             I_j = u(idx.I_j, :);
             
-            % SMC fluxes
+            %% SMC fluxes
             J_IP3_i = p.F_i * I_i.^2 ./ (p.K_r_i^2 + I_i.^2);
             J_SR_uptake_i = p.B_i * Ca_i.^2 ./ (p.c_b_i^2 + Ca_i.^2);
             J_CICR_i = p.C_i * s_i.^2 ./ (p.s_c_i^2 + s_i.^2) .* ...
@@ -52,7 +56,7 @@ classdef SMCEC < handle
             
             J_degrad_i = p.k_d_i * I_i;
             
-            % EC fluxes
+            %% EC fluxes
             J_IP3_j = p.F_j * I_j.^2 ./ (p.K_r_j^2 + I_j.^2);
             J_ER_uptake_j = p.B_j * Ca_j.^2 ./ (p.c_b_j^2 + Ca_j.^2);
             J_CICR_j = p.C_j * s_j.^2 ./ (p.s_c_j^2 + s_j.^2) .* ...
@@ -76,7 +80,7 @@ classdef SMCEC < handle
             J_R_j = p.G_R_j * (v_j - p.v_rest_j);
             J_degrad_j = p.k_d_j * I_j;
             
-            % Coupling
+            %% Coupling
             V_coup_i = -p.G_coup * (v_i - v_j);
             J_IP3_coup_i = -p.P_IP3 * (I_i - I_j);
             J_Ca_coup_i = -p.P_Ca * (Ca_i - Ca_j);
@@ -86,7 +90,8 @@ classdef SMCEC < handle
                 p.beta_i * exp(-(v_i - p.v_Ca3_i) / p.R_K_i));
             
             
-            %ODE RHSes
+            %% Differential Equations
+            % Smooth muscle cell
             du(idx.Ca_i, :) = J_IP3_i - J_SR_uptake_i - J_extrusion_i + ...
                 J_SR_leak_i - J_VOCC_i + J_CICR_i + J_NaCa_i + ...
                 0.1*J_stretch_i + J_Ca_coup_i;
@@ -98,16 +103,14 @@ classdef SMCEC < handle
             du(idx.w_i, :) = p.lambda_i * (K_act_i - w_i);
             du(idx.I_i, :) = J_IP3_coup_i - J_degrad_i;
             du(idx.K_i, :) = J_NaK_i - J_KIR_i - J_K_i;
-            
+            % Endothelial Cell
             du(idx.Ca_j, :) = J_IP3_j - J_ER_uptake_j + J_CICR_j - ...
                 J_extrusion_j + J_ER_leak_j + J_cation_j + p.J_0_j + ...
                 J_stretch_j - J_Ca_coup_i;
             du(idx.s_j, :) = J_ER_uptake_j - J_CICR_j - J_ER_leak_j;
             du(idx.v_j, :) = -1/p.C_m_j * (J_K_j + J_R_j) - V_coup_i;
-            %% ------------------------------------------------------------------
             du(idx.I_j, :) = p.J_PLC - J_degrad_j - J_IP3_coup_i;
-            %du(idx.I_j, :) = p.J_PLC - J_degrad_j+ J_IP3_coup_i;
-            %%
+            
             du = bsxfun(@times, self.enabled, du);
             
             if nargout == 2
@@ -167,6 +170,7 @@ classdef SMCEC < handle
 end
 
 function idx = indices()
+% Index of parameters needing inital conditions 
 idx.Ca_i = 1;
 idx.s_i = 2;
 idx.v_i = 3;
@@ -180,6 +184,7 @@ idx.I_j = 10;
 end
 
 function [idx, n] = output_indices()
+% Index of all other output parameters
 idx.V_coup_i = 1;
 idx.J_Ca_coup_i = 2;
 idx.J_IP3_coup_i = 3;
@@ -220,45 +225,59 @@ end
 
 function params = parse_inputs(varargin)
 parser = inputParser();
+% Smooth Muscle Cell ODE Constants
 parser.addParameter('gamma_i', 1970); %mV uM^-1
 parser.addParameter('lambda_i', 45); % s^-1
+
+% Endothelial Cell ODE Constants
 parser.addParameter('C_m_j', 25.8); %pF
+parser.addParameter('J_PLC', 0.18); % uMs^-1
+parser.addParameter('J_0_j', 0.029); %constant Ca influx (EC)
+
+% Smooth Muscle Cell Flux Constants
 parser.addParameter('F_i', 0.23); %uM s^-1
 parser.addParameter('K_r_i', 1); %uM
+
 parser.addParameter('B_i', 2.025); %uM s^-1
 parser.addParameter('c_b_i', 1.0); %uM
+
 parser.addParameter('C_i', 55); % uM s^-1
 parser.addParameter('s_c_i', 2.0); %uM
 parser.addParameter('c_c_i', 0.9); %uM
+
 parser.addParameter('D_i', 0.24); %s^-1
 parser.addParameter('v_d', -100); %mV
 parser.addParameter('R_d_i', 250); %mV
+
 parser.addParameter('L_i', 0.025); %s^-1
+
 parser.addParameter('G_Ca_i', 1.29e-3); %uM mV^-1 s^-1
 parser.addParameter('v_Ca1_i', 100); %mV
 parser.addParameter('v_Ca2_i', -24); %mV
 parser.addParameter('R_Ca_i', 8.5); %mV
+
 parser.addParameter('G_NaCa_i', 3.16e-3); %uM mV^-1 s^-1
 parser.addParameter('c_NaCa_i', 0.5); %uM
 parser.addParameter('v_NaCa_i', -30); %mV
 
-parser.addParameter('G_stretch', 6.1e-3); % uM mV^-1 s^-1
-parser.addParameter('alpha_stretch', 7.4e-3); % mmHg
-parser.addParameter('delta_p', 30); % mmHg
-parser.addParameter('sigma_0', 500); % mmHg
-parser.addParameter('E_SAC', -18); % mV
+parser.addParameter('G_stretch', 6.1e-3); % uM mV^-1 s^-1   (Also EC parameter)
+parser.addParameter('alpha_stretch', 7.4e-3); % mmHg^-1     (Also EC parameter)
+parser.addParameter('delta_p', 30); % mmHg                  (Also EC parameter)
+parser.addParameter('sigma_0', 500); % mmHg                 (Also EC parameter)
+parser.addParameter('E_SAC', -18); % mV                     (Also EC parameter)
 
 parser.addParameter('F_NaK_i', 4.32e-2); %uM s^-1
+
 parser.addParameter('G_Cl_i', 1.34e-3); %uM mV^-1 s^-1
 parser.addParameter('v_Cl_i', -25); %mV
 
 parser.addParameter('G_K_i', 4.46e-3); %uM mV^-1 s^-1
 parser.addParameter('v_K_i', -94); %mV
 
-parser.addParameter('F_KIR_i', 7.5e2);
+parser.addParameter('F_KIR_i', 7.5e2); % [-]
 parser.addParameter('k_d_i', 0.1); % s^-1
-% Endothelial
 
+% Endothelial Cell Flux Constants
 parser.addParameter('F_j', 0.23); %uM s^-1
 parser.addParameter('K_r_j', 1); %uM
 parser.addParameter('B_j', 0.5); %uM s^-1
@@ -267,26 +286,30 @@ parser.addParameter('C_j', 5); %uM s^-1
 parser.addParameter('s_c_j', 2); %uM
 parser.addParameter('c_c_j', 0.9); %uM
 parser.addParameter('D_j', 0.24);% s^-1
-parser.addParameter('L_j', 0.025); %s^-1
+
+% (G_stretch, alpha_stretch, delta_p, sigma0, E_SAC are included above in 
+%  SMC flux Constants)
+
+parser.addParameter('L_j', 0.025); %s^-1 
 
 parser.addParameter('G_cat_j', 6.6e-4); %uM mV^-1 s^-1
 parser.addParameter('E_Ca_j', 50); %mV
 parser.addParameter('m_3_cat_j', -0.18); %uM
 parser.addParameter('m_4_cat_j', 0.37); %uM
 
-parser.addParameter('G_tot_j', 6927); %pS
-parser.addParameter('v_K_j', -80); %mV
+parser.addParameter('G_tot_j', 6927); %p mho
+parser.addParameter('v_K_j', -80); %m mho
 
 parser.addParameter('c', -0.4); %uM
 parser.addParameter('bb_j', -80.8); %mV
 parser.addParameter('a_1_j', 53.3); %uM mV
-parser.addParameter('a_2_j', 53.3); %..
+parser.addParameter('a_2_j', 53.3); % mV uM^-1
 parser.addParameter('m_3b_j', 1.32e-3); %uM mV^-1
 parser.addParameter('m_4b_j', 0.3); %uM mV
 parser.addParameter('m_3s_j', -0.28); %uM
 parser.addParameter('m_4s_j', 0.389); %uM
 
-parser.addParameter('G_R_j', 955); %pS
+parser.addParameter('G_R_j', 955); %p omh
 parser.addParameter('v_rest_j', -31.1); %mV
 parser.addParameter('k_d_j', 0.1); %s^-1
 
@@ -294,20 +317,16 @@ parser.addParameter('P_Ca', 0.05); %s^-1
 parser.addParameter('P_IP3', 0.05); %s^-1
 parser.addParameter('G_coup', 0.5); %s^-1
 
+% Additional Equations Constants
 parser.addParameter('c_w_i', 0); %uM
 parser.addParameter('beta_i', 0.13); %uM^2
 parser.addParameter('v_Ca3_i', -27); %mV
 parser.addParameter('R_K_i', 12); %mV
 parser.addParameter('z_1', 4.5e-3); %mV
-parser.addParameter('z_2', 112); %..
+parser.addParameter('z_2', 112); %mV
 parser.addParameter('z_3', 4.2e-4); %uM mV^-1 s^-1
 parser.addParameter('z_4', 12.6); %uM mV^-1 s^-1
 parser.addParameter('z_5', -7.4e-2); %uM mV^-1 s^-1
-
-parser.addParameter('J_0_j', 0.029); %constant Ca influx (EC)
-
-parser.addParameter('J_PLC', 0.18); % ------------------------------------------------
-
 
 parser.parse(varargin{:})
 params = parser.Results;
@@ -315,6 +334,7 @@ end
 
 function u0 = initial_conditions(idx)
 u0 = zeros(length(fieldnames(idx)), 1);
+% Inital estimations of parameters from experimental data
 u0(idx.Ca_i) = 0.1;
 u0(idx.s_i) = 0.1;
 u0(idx.v_i) = -60;

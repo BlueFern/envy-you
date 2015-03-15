@@ -12,7 +12,7 @@
 % Options for the ODE solver (currently |ode15s|) are provided by
 % specifying the |odeopts| parameter. The code works fine with default
 % tolerances.
-odeopts = odeset('Vectorized', 1);
+odeopts = odeset('RelTol', 1e-03, 'AbsTol', 1e-03, 'MaxStep', 1, 'Vectorized', 1);
 
 nv = NVU(Astrocyte(), ...
     WallMechanics(), ...
@@ -80,7 +80,7 @@ nv.simulate()
 % We'll reset our parameters and time back to where they were. Don't forget
 % you can look up default values and initial conditions on the model
 % documentation pages.
-nv.smcec.params.J_PLC = 0.4;
+nv.smcec.params.J_PLC = 0.18;
 nv.astrocyte.u0(nv.astrocyte.index.K_p) = 3e3;
 nv.T = linspace(0, 500, 1000);
 nv.simulate();
