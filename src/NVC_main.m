@@ -3,8 +3,10 @@ tic
 
 % global variables
 global CASE J_PLC startpulse lengthpulse C_Hillmann stretch_ch only_Koenig NVU Glu_start Glu_end wss_start wss_end c_w_switch t_wss_switch vivi NO_switch
-
+global nNOS_switch eNOS_switch Ca_switch cGMP_switch K2K5_switch
 %% NO pathway
+Ca_switch = 1;
+cGMP_switch = 1;
 global m %(cGMP coupling (0 - lowest influence to 2 - highest influence))
 m = 2;
 lalaa = 1;
@@ -27,23 +29,24 @@ lalaa = 1;
 % t_wss_switch = switch1;
 % NO_switch = switch1;
 %     
-
+for K2K5_switch = [1];
 for c_w_switch = [1];
 for t_wss_switch = [1];
-for NO_switch = [1];
+for NO_switch = [0,1];
     
 c_w_switch
 t_wss_switch
-NO_switch
+nNOS_switch = NO_switch;
+eNOS_switch = NO_switch; 
 % for vivi = -100:10:200
 
 %% Parameters to adjust the model:
 t_start = 0;
-t_end = 1200;
-startpulse  = 600;  % (s) 
+t_end = 800;
+startpulse  = 400;  % (s) 
 lengthpulse = 200;  % (s) 
-Glu_start   = 600;
-Glu_end     = 800;
+Glu_start   = startpulse;
+Glu_end     = startpulse + lengthpulse;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)
@@ -145,7 +148,7 @@ legend('1','2','3','4','5','6','7','8')
 hold all
 
 subplot(2,6,7)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
+plot(time, state(:,ind.NO_n),time, state(:,ind.NO_k),time, state(:,ind.NO_j),time, state(:,ind.NO_i))
 xlabel('time in s')
 ylabel('[NO] in \muM')
 legend('1[NO]_n','1[NO]_a','1[NO]_j','1[NO]_i','2[NO]_n','2[NO]_a','2[NO]_j','2[NO]_i','3[NO]_n','3[NO]_a','3[NO]_j','3[NO]_i','4[NO]_n','4[NO]_a','4[NO]_j','4[NO]_i','Location','NorthWest')
@@ -196,7 +199,7 @@ ylabel(hAx(2),'[eNOS_{act}]_n in \muM')
 hold all
 
 subplot(2,3,2)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
+plot(time, state(:,ind.NO_n),time, state(:,ind.NO_k),time, state(:,ind.NO_j),time, state(:,ind.NO_i))
 xlabel('time in s')
 ylabel('[NO] in \muM')
 legend('neuron','astrocyte','endothelial cell','smooth muscle cell','Location','NorthWest')
@@ -229,9 +232,75 @@ xlabel('time in s')
 legend('1','2','3','4','5','6','7','8')
 hold all
 
+%%
+figure(7)
+subplot(2,3,1)
+plot(time, state(:,ind.w_i))
+xlabel('time in s')
+ylabel('w_i')
+hold all
+
+subplot(2,3,2)
+plot(time, state(:,ind.v_i))
+xlabel('time in s')
+ylabel('v_i')
+hold all
+
+
+subplot(2,3,3)
+plot(time, state(:,ind.Ca_i))
+xlabel('time in s')
+ylabel('Ca_i')
+hold all
+
+
+subplot(2,3,4)
+plot(time,DATA(:,smcoff+flu.J_KIR_i))
+xlabel('time in s')
+ylabel('J\_KIR_i')
+hold all
+
+
+subplot(2,3,5)
+plot(time,DATA(:,smcoff+flu.J_NaK_i))
+xlabel('time in s')
+ylabel('J\_NaK_i')
+hold all
+
+
+subplot(2,3,6)
+plot(time,DATA(:,smcoff+flu.J_VOCC_i))
+xlabel('time in s')
+ylabel('J\_VOCC_i')
+hold all
+%%
+figure(8)
+subplot(2,2,1)
+plot(time, state(:,ind.K_p))
+xlabel('time in s')
+ylabel('K\_p')
+hold all
+
+subplot(2,2,2)
+plot(time, DATA(:,smcoff+flu.J_K_i))
+xlabel('time in s')
+ylabel('J\_K_i')
+hold all
+
+subplot(2,2,3)
+plot(time, DATA(:,smcoff+flu.J_KIR_i))
+xlabel('time in s')
+ylabel('J\_KIR_i')
+hold all
+
+subplot(2,2,4)
+plot(time, DATA(:,smcoff+flu.J_KIR_i)-DATA(:,smcoff+flu.J_K_i))
+xlabel('time in s')
+ylabel('J\_KIR_i-J\_K_i')
+hold all
 
 end
-
+end
 end
 end
 

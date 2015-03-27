@@ -1,9 +1,13 @@
+%% Main script to plot FIG1 for NO paper
+% The NO signalling pathway, main variables and state variables
+% Option to switch on and off c_w, t_wss, NO_pathway! -> legend entries
+
 clean
 tic
 
 % global variables
 global CASE J_PLC startpulse lengthpulse C_Hillmann stretch_ch only_Koenig NVU Glu_start Glu_end wss_start wss_end c_w_switch t_wss_switch vivi NO_switch
-
+global  nNOS_switch eNOS_switch 
 %% NO pathway
 global m %(cGMP coupling (0 - lowest influence to 2 - highest influence))
 m = 2;
@@ -35,6 +39,8 @@ for NO_switch = [1];
 c_w_switch
 t_wss_switch
 NO_switch
+nNOS_switch = NO_switch;
+eNOS_switch = NO_switch;
 % for vivi = -100:10:200
 
 %% Parameters to adjust the model:
@@ -152,7 +158,7 @@ legend('1','2','3','4','5','6','7','8')
 hold all
 
 subplot(2,6,7)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi))
+plot(time, state(:,ind.NO_n),time, state(:,ind.NO_k),time, state(:,ind.NO_j),time, state(:,ind.NO_i))
 xlabel('time in s')
 ylabel('[NO] in \muM')
 legend('1[NO]_n','1[NO]_a','1[NO]_j','1[NO]_i','2[NO]_n','2[NO]_a','2[NO]_j','2[NO]_i','3[NO]_n','3[NO]_a','3[NO]_j','3[NO]_i','4[NO]_n','4[NO]_a','4[NO]_j','4[NO]_i','Location','NorthWest')
@@ -208,7 +214,7 @@ legend('nNOS','eNOS','Location','NorthWest')
 hold all
 
 subplot(3,2,2)
-plot(time, state(:,ind.NOn),time, state(:,ind.NOa),time, state(:,ind.NOj),time, state(:,ind.NOi),'LineWidth',1);
+plot(time, state(:,ind.NO_n),time, state(:,ind.NO_k),time, state(:,ind.NO_j),time, state(:,ind.NO_i),'LineWidth',1);
 xlabel('Time (s)');
 ylabel('[NO] (\muM)')
 legend('NE','AC','EC','SMC','Location','NorthWest')
@@ -243,7 +249,7 @@ ylim([20 32]);
 % legend('1','2','3','4','5','6','7','8')
 hold all
 
-%% FIG2
+%% Radius
 figure(7)
 set(gcf, 'Position', [400 300 700 300]);
 plot(time, state(:,ind.R)*1e6,'LineWidth',1);

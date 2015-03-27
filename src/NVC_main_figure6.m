@@ -1,3 +1,6 @@
+%% Main script to plot FIG6 for NO paper
+% Distribution of NO concentration among cell types
+
 clean
 tic
 
@@ -101,7 +104,7 @@ time = DATA(:,length(DATA(1,:))-5);
 %% FIG6
 figure(7)
 set(gcf, 'Position', [400 300 700 300]);
-plot(time, state(:,ind.NOn),time, state(:,ind.NOk),time, state(:,ind.NOj),time, state(:,ind.NOi),'LineWidth',1);
+plot(time, state(:,ind.NO_n),time, state(:,ind.NO_k),time, state(:,ind.NO_j),time, state(:,ind.NO_i),'LineWidth',1);
 xlabel('Time (s)');
 ylabel('[NO] (\muM)')
 legend('NE','AC','EC','SMC','Location','NorthWest')
@@ -109,29 +112,29 @@ hold all
 % ylim([20 32]);
 hold all
 
-figure(13)
-set(gcf, 'Position', [400 300 700 300]);
-plot(time, state(:,ind.NOn_max),time, state(:,ind.NOk_max),time, state(:,ind.NOj_max),time, state(:,ind.NOi_max),'LineWidth',1);
-xlabel('Time (s)');
-ylabel('[NO] (\muM)')
-legend('NE\_max','AC\_max','EC\_max','SMC\_max','Location','NorthWest')
-hold all
-% ylim([20 32]);
-hold all
+% figure(13)
+% set(gcf, 'Position', [400 300 700 300]);
+% plot(time, state(:,ind.NOn_max),time, state(:,ind.NOk_max),time, state(:,ind.NOj_max),time, state(:,ind.NOi_max),'LineWidth',1);
+% xlabel('Time (s)');
+% ylabel('[NO] (\muM)')
+% legend('NE\_max','AC\_max','EC\_max','SMC\_max','Location','NorthWest')
+% hold all
+% % ylim([20 32]);
+% hold all
 
 figure(8)
 set(gcf, 'Position', [400 300 700 300]);
-y = [state(end,ind.NOn) state(end,ind.NOk) state(end,ind.NOi) state(end,ind.NOj)];
+y = [state(end,ind.NO_n) state(end,ind.NO_k) state(end,ind.NO_i) state(end,ind.NO_j)];
 bar(y,0.4)
 ylabel('[NO] (\muM)')
 hold all
 
-figure(12)
-set(gcf, 'Position', [400 300 700 300]);
-y = [state(end,ind.NOn_max) state(end,ind.NOk_max) state(end,ind.NOi_max) state(end,ind.NOj_max)];
-bar(y,0.4)
-ylabel('[NO] (\muM)')
-hold all
+% figure(12)
+% set(gcf, 'Position', [400 300 700 300]);
+% y = [state(end,ind.NOn_max) state(end,ind.NOk_max) state(end,ind.NOi_max) state(end,ind.NOj_max)];
+% bar(y,0.4)
+% ylabel('[NO] (\muM)')
+% hold all
 
 
 % figure(9)

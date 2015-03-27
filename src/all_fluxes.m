@@ -176,12 +176,12 @@ NE(flu.P_NR2AO)         = Glu/(betA+Glu);
 NE(flu.P_NR2BO)         = Glu/(betB+Glu);
 NE(flu.openProbTerm)    = 0.63 * NE(flu.P_NR2AO) + 11 * NE(flu.P_NR2BO);
 NE(flu.I_Ca)            = (-4*v_n*G_M*P_Ca_P_M*(Ca_ex/M))/(1+exp(-0.08*(v_n+20)))...
-                            *(exp(2*1e-3*v_n*Farad/(R*T)))/(1-exp(2*1e-3*v_n*Farad/(R*T)))...
+                            *(exp(2*1e-3*v_n*Farad/(R_gas*T)))/(1-exp(2*1e-3*v_n*Farad/(R_gas*T)))...
                             *(0.63*NE(flu.P_NR2AO)+11*NE(flu.P_NR2BO));     % inward calcium current per open NMDA receptor ; (96)
 NE(flu.phi_N)           = 1 + Q1*state(ind.Ca_n) + Q1*Q2*state(ind.Ca_n)^2 + Q1*Q2*Q3*state(ind.Ca_n)^3 + Q1*Q2*Q3*Q4*state(ind.Ca_n)^4;        % (102)
 NE(flu.dphi_N)          = Q1 + 2*Q1*Q2*state(ind.Ca_n) + 3*Q1*Q2*Q3*state(ind.Ca_n)^2 + 4*Q1*Q2*Q3*Q4*state(ind.Ca_n)^3;            % == d(phi_N)/d(ind.Ca_n) ; (part of 101)
-NE(flu.N)               = (state(ind.Ca_n)/NE(flu.phi_N))*NE(flu.dphi_N);                                                   % number of Ca2+ bound per calmodulin ; (101)
-NE(flu.CaM)             = state(ind.Ca_n)/NE(flu.N);                                      % concentration of calmodulin / calcium complexes ; (100)            
+NE(flu.m_c)               = (state(ind.Ca_n)/NE(flu.phi_N))*NE(flu.dphi_N);                                                   % number of Ca2+ bound per calmodulin ; (101)
+NE(flu.CaM)             = state(ind.Ca_n)/NE(flu.m_c);                                      % concentration of calmodulin / calcium complexes ; (100)            
 
             
 % EC
@@ -192,12 +192,25 @@ EC(flu.F_tau_w)         = (1/(1+alp*exp(-EC(flu.W_tau_w))))-(1/(1+alp)); % -(1/(
 % SMC 
 SMC(flu.k4)             = C_4*state(ind.cGMP)^m;
 SMC(flu.R_cGMP1)        = (state(ind.cGMP)^2)/(state(ind.cGMP)^2+K_m_cGMP^2);
-SMC(flu.R_NO)           = (state(ind.NOi)/(state(ind.NOi)+K_m_NO)) ;
+SMC(flu.R_NO)           = (state(ind.NO_i)/(state(ind.NO_i)+K_m_NO)) ;
 %SMC(flu.v_Ca3)          = -45*log10(state(ind.Ca_i)-0.0838) + 223.276*SMC(flu.R_cGMP1) - 292.700*SMC(flu.R_NO) - 198.55;
 % SMC(flu.P_O)            = (state(ind.Ca_i) + c_wi )^2/( (state(ind.Ca_i) + c_wi )^2 + bet_i*exp(-(state(ind.v_i) - SMC(flu.v_Ca3)) / (R_Kfit)) );
 SMC(flu.R_cGMP2)        = (state(ind.cGMP)^2)/(state(ind.cGMP)^2+K_m_mlcp^2);
 % SMC(flu.K2_c)           = 15.1392*k_mlcp_b+15.1392*k_mlcp_c*SMC(flu.R_cGMP2);  % 17.64 / 16.75 errechnet sich aus dem Shift, um K2_c = 0.5 bei der baseline zu bekommen - muss vllt noch geaendert werden! 
-SMC(flu.K2_c)           = 58.1395*k_mlcp_b+58.1395*k_mlcp_c*SMC(flu.R_cGMP2);  % 17.64 / 16.75 errechnet sich aus dem Shift, um K2_c = 0.5 bei der baseline zu bekommen - muss vllt noch geaendert werden! 
+global K2K5_switch
+
+if K2K5_switch == 0
+    SMC(flu.K2_c)           = 0.5; 
+    if t == 0
+        fprintf('Warning! K2 & K5 set to 0.5.\n')
+    end
+else
+    SMC(flu.K2_c)           = 58.1395*k_mlcp_b+58.1395*k_mlcp_c*SMC(flu.R_cGMP2);  % 17.64 / 16.75 errechnet sich aus dem Shift, um K2_c = 0.5 bei der baseline zu bekommen - muss vllt noch geaendert werden! 
+        if t == 0
+            fprintf('Warning! K2 & K5 variable.\n')
+        end
+end
+
 SMC(flu.K5_c)           = SMC(flu.K2_c);
 SMC(flu.kmlcp)          = k_mlcp_b + k_mlcp_c * SMC(flu.R_cGMP2);
 %SMC(flu.Kactivation_i)  =      ( state(ind.Ca_i) + c_w )^2 / ( (state(ind.Ca_i) + c_w)^2 + bet*exp(-(state(ind.v_i) - SMC(flu.v_Ca3))/R_K) );

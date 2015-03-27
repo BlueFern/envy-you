@@ -2,7 +2,7 @@ function [dy] = DEsyst (time,state)
 % Below all conservation equation are calculated. 
 % Note that "getRef" is the function that contains the input stimulus of 
 % the model. 
-global J_PLC
+global J_PLC Ca_switch
 
 dy = zeros(size(state));
 all_constants(); % All constants used in this model
@@ -40,8 +40,7 @@ else
 end
 
 % Smooth muscle cell
-dy(ind.Ca_i)    = SMC(flu.Ca_coup_i) + SMC(flu.rho_i) * (SMC(flu.J_CICR_i) + SMC(flu.J_IP3_i) + SMC(flu.J_leak_i) - SMC(flu.J_SRuptake_i) - SMC(flu.J_extrusion_i)...
-    - SMC(flu.J_VOCC_i) + SMC(flu.J_NaCa_i) + 0.1*SMC(flu.J_stretch_i));
+dy(ind.Ca_i)    = Ca_switch * (SMC(flu.Ca_coup_i) + SMC(flu.rho_i) * (SMC(flu.J_CICR_i) + SMC(flu.J_IP3_i) + SMC(flu.J_leak_i) - SMC(flu.J_SRuptake_i) - SMC(flu.J_extrusion_i)- SMC(flu.J_VOCC_i) + SMC(flu.J_NaCa_i) + 0.1*SMC(flu.J_stretch_i)));
 dy(ind.s_i) 	= - SMC(flu.J_CICR_i) - SMC(flu.J_leak_i) + SMC(flu.J_SRuptake_i) ;
 dy(ind.v_i)     = SMC(flu.v_coup_i) + gam * (-SMC(flu.J_NaK_i) - SMC(flu.J_Cl_i) - 2*SMC(flu.J_VOCC_i) - SMC(flu.J_NaCa_i) - SMC(flu.J_K_i) - SMC(flu.J_stretch_i) - SMC(flu.J_KIR_i));
 dy(ind.w_i) 	= lab * (SMC(flu.Kactivation_i) - state(ind.w_i));
@@ -109,7 +108,7 @@ global nNOS_switch eNOS_switch
 % NE           
        dy(ind.Ca_n)       = (((NE(flu.I_Ca))/(2*Farad*v_spine)-(k_ex*(state(ind.Ca_n)-Ca_rest)))/(1+lambda));                                                   % cytosolic [Ca2+] in the NE in \muM
        dy(ind.nNOS_act)   = nNOS_switch * (V_maxNOS*(NE(flu.CaM))/(K_actNOS+NE(flu.CaM))-mu2*state(ind.nNOS_act));                                    % activated nNOS in \muM
-       dy(ind.NOn)        = ((state(ind.nNOS_act) * V_NOn_max * (On/(K_mO2_n+On)) * (LArg/(K_mArg+LArg)) )) + ((state(ind.NOk)-state(ind.NOn))/tau_nk) - (k_O2*state(ind.NOn)^2*On);   % NO concentration in the neuron ; (95)
+       dy(ind.NO_n)        = ((state(ind.nNOS_act) * V_NOn_max * (On/(K_mO2_n+On)) * (LArg/(K_mArg+LArg)) )) + ((state(ind.NO_k)-state(ind.NO_n))/tau_nk) - (k_O2*state(ind.NO_n)^2*On);   % NO concentration in the neuron ; (95)
        %maximal production - FIG 6:  
        dy(ind.nNOS_act_max)   = nNOS_switch * (V_maxNOS - mu2 * state(ind.nNOS_act_max));                                    % activated nNOS in \muM
        % absolutes Limit des Models: (unrealistisch)
@@ -117,25 +116,25 @@ global nNOS_switch eNOS_switch
        dy(ind.NOn_max)        = (state(ind.nNOS_act) * V_NOn_max ) + ((state(ind.NOk_max)-state(ind.NOn_max))/tau_nk) - (k_O2*state(ind.NOn_max)^2*On);   % NO concentration in the neuron ; (95)
 
 % AC
-       dy(ind.NOk)        = ((state(ind.NOn)-state(ind.NOk))/tau_nk) + ((state(ind.NOi)-state(ind.NOk))/tau_ki) - (k_O2*state(ind.NOk)^2*On);
+       dy(ind.NO_k)        = ((state(ind.NO_n)-state(ind.NO_k))/tau_nk) + ((state(ind.NO_i)-state(ind.NO_k))/tau_ki) - (k_O2*state(ind.NO_k)^2*On);
        % maximal production - FIG 6: 
        dy(ind.NOk_max)    = ((state(ind.NOn_max)-state(ind.NOk_max))/tau_nk) + ((state(ind.NOi_max)-state(ind.NOk_max))/tau_ki) - (k_O2*state(ind.NOk_max)^2*On);
 
 % SMC              
-       dy(ind.NOi)        = ((state(ind.NOk)-state(ind.NOi))/tau_ki) + ((state(ind.NOj)-state(ind.NOi))/tau_ij) - (k_dno * state(ind.NOi));                             % NO concentration in the SMC ; 
+       dy(ind.NO_i)        = ((state(ind.NO_k)-state(ind.NO_i))/tau_ki) + ((state(ind.NO_j)-state(ind.NO_i))/tau_ij) - (k_dno * state(ind.NO_i));                             % NO concentration in the SMC ; 
        % maximal production - FIG 6: 
        dy(ind.NOi_max)    = ((state(ind.NOk_max)-state(ind.NOi_max))/tau_ki) + ((state(ind.NOj_max)-state(ind.NOi_max))/tau_ij) - (k_dno * state(ind.NOi_max));                             % NO concentration in the SMC ; 
        
-       dy(ind.E_b)        = -k1*state(ind.E_b)*state(ind.NOi)+k_1*state(ind.E_6c) + SMC(flu.k4)*state(ind.E_5c);     
-       dy(ind.E_6c)       = k1*state(ind.E_b)*state(ind.NOi)-k_1*state(ind.E_6c)-k2*state(ind.E_6c)- k3*state(ind.E_6c)*state(ind.NOi);
-       dy(ind.E_5c)       = k3*state(ind.E_6c)*state(ind.NOi)+k2*state(ind.E_6c) - SMC(flu.k4)*state(ind.E_5c);
+       dy(ind.E_b)        = -k1*state(ind.E_b)*state(ind.NO_i)+k_1*state(ind.E_6c) + SMC(flu.k4)*state(ind.E_5c);     
+       dy(ind.E_6c)       = k1*state(ind.E_b)*state(ind.NO_i)-k_1*state(ind.E_6c)-k2*state(ind.E_6c)- k3*state(ind.E_6c)*state(ind.NO_i);
+       dy(ind.E_5c)       = k3*state(ind.E_6c)*state(ind.NO_i)+k2*state(ind.E_6c) - SMC(flu.k4)*state(ind.E_5c);
        dy(ind.cGMP)       = V_max_sGC*state(ind.E_5c)-(k_pde*state(ind.cGMP)^2)/(K_m_pde+state(ind.cGMP));
        
 % EC
        gam_eNOS = 0.1;
        dy(ind.eNOS_act)   = eNOS_switch * (gam_eNOS * SMC(flu.Act_eNOS_Ca)  + (1-gam_eNOS) * SMC(flu.Act_eNOS_wss)- mu2*state(ind.eNOS_act)) ;          % (104)
 
-       dy(ind.NOj)        = (V_NOj_max * (state(ind.eNOS_act)) * (Oj/(K_mO2_j+Oj)) * (LArg/(K_mArg+LArg)) ) + ((state(ind.NOi)-state(ind.NOj))/tau_ij)   - k_O2*(state(ind.NOj))^2*Oj - state(ind.NOj)*4*3300/(25^2);
+       dy(ind.NO_j)        = (V_NOj_max * (state(ind.eNOS_act)) * (Oj/(K_mO2_j+Oj)) * (LArg/(K_mArg+LArg)) ) + ((state(ind.NO_i)-state(ind.NO_j))/tau_ij)   - k_O2*(state(ind.NO_j))^2*Oj - state(ind.NO_j)*4*3300/(25^2);
        % maximal production - FIG 6: 
        Act_eNOS_Ca_max = 0.09; % at infinitively high Ca_j concentration
        Act_eNOS_wss_max = 0.04; % at infinitively high wss concentration
