@@ -1,4 +1,4 @@
-clean
+%clean
 tic
 
 % global variables
@@ -10,25 +10,7 @@ cGMP_switch = 1;
 global m %(cGMP coupling (0 - lowest influence to 2 - highest influence))
 m = 2;
 lalaa = 1;
-% 
-% cai = [];
-% logcai = [];
-% Po = [];
-% vca3 = [];
-% rcgmp1 = [];
-% vii = [];
-% timee = [];
-% for c_w_switch = [1]
-% 
-% for t_wss_switch = [1]
-% 
-% for NO_switch = [1]
-% for switch1 = [1]
-    
-% c_w_switch = switch1;
-% t_wss_switch = switch1;
-% NO_switch = switch1;
-%     
+
 for K2K5_switch = [1];
 for c_w_switch = [1];
 for t_wss_switch = [1];
@@ -45,8 +27,8 @@ t_start = 0;
 t_end = 800;
 startpulse  = 400;  % (s) 
 lengthpulse = 200;  % (s) 
-Glu_start   = startpulse;
-Glu_end     = startpulse + lengthpulse;
+Glu_start   = 400; %startpulse;
+Glu_end     = 600;%startpulse + lengthpulse;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)

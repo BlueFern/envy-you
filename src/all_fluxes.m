@@ -191,8 +191,8 @@ EC(flu.F_tau_w)         = (1/(1+alp*exp(-EC(flu.W_tau_w))))-(1/(1+alp)); % -(1/(
 
 % SMC 
 SMC(flu.k4)             = C_4*state(ind.cGMP)^m;
-SMC(flu.R_cGMP1)        = (state(ind.cGMP)^2)/(state(ind.cGMP)^2+K_m_cGMP^2);
-SMC(flu.R_NO)           = (state(ind.NO_i)/(state(ind.NO_i)+K_m_NO)) ;
+%SMC(flu.R_cGMP1)        = (state(ind.cGMP)^2)/(state(ind.cGMP)^2+K_m_cGMP^2);
+%SMC(flu.R_NO)           = (state(ind.NO_i)/(state(ind.NO_i)+K_m_NO)) ;
 %SMC(flu.v_Ca3)          = -45*log10(state(ind.Ca_i)-0.0838) + 223.276*SMC(flu.R_cGMP1) - 292.700*SMC(flu.R_NO) - 198.55;
 % SMC(flu.P_O)            = (state(ind.Ca_i) + c_wi )^2/( (state(ind.Ca_i) + c_wi )^2 + bet_i*exp(-(state(ind.v_i) - SMC(flu.v_Ca3)) / (R_Kfit)) );
 SMC(flu.R_cGMP2)        = (state(ind.cGMP)^2)/(state(ind.cGMP)^2+K_m_mlcp^2);

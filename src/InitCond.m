@@ -71,7 +71,7 @@ function STATES = InitCond()
     
     STATES(ind.NO_i)     = 0.05; %0.07
     STATES(ind.NO_j)     = 0.05; %0.07
-    STATES(ind.cGMP)    = 12*cGMP_switch; %8;
+    STATES(ind.cGMP)    = 6*cGMP_switch; %8;
    
 %     if cGMP_activated == 0
 %         STATES(ind.cGMP)    = 8.935;   % calcium concentration in cytosol - Stockand&Sansom,1996
