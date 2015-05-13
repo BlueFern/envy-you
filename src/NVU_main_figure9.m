@@ -19,7 +19,7 @@ global cGMP_activated
 global m %(cGMP coupling (0 - lowest influence to 2 - highest influence))
 m = 2;
 lalaa = 1;
-
+cGMP_switch = 1;
 c_w_switch = 1;
 t_wss_switch = 1;
 

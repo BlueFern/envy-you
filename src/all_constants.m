@@ -242,7 +242,8 @@ nu_r        = 1e4;
 %% NO pathway
 
 % NE********************
-LArg		= 100;			% Nochmal genauer ausrechnen! --> Ping paper! - wird spaeter variabel!
+LArg_n		= 100;			% Nochmal genauer ausrechnen! --> Ping paper! - wird spaeter variabel!
+LArg_j		= 100;			% Nochmal genauer ausrechnen! --> Ping paper! - wird spaeter variabel!
 %F           = 96500;        % [-] ; Faraday's constant (see above)
 v_spine     = 8e-8;         % [fL] ; the volume of the neuronal dendritic spine
 k_ex        = 1600;         % [s^{-1}] ; the decay rate constant of internal calcium concentration
@@ -266,6 +267,7 @@ tau_ij      = dist_ij^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster19
 
 k_O2        = 9.6e-6;       % [microM^{-2} s^{-1}] 
 On          = 200;         	% [microM] ; the tissue O2 concentration in the neuron
+Ok          = 200;         	% [microM] ; the tissue O2 concentration in the AC
 v_n         = -40;          % [mV] ; the neuronal membrane potential , assumed to be approx constant in this model
 G_M         = 46;        	% [pS] ; the conductance of the NMDA channel to Ca2+ compaired  
 P_Ca_P_M    = 3.6;         	% [-] ; the relative conductance of the NMDA channel to Ca2+ compared to monovalent ions

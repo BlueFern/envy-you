@@ -36,7 +36,7 @@ Ca_switch = 1;
 cGMP_switch = 1;
 for c_w_switch = [1];
 for t_wss_switch = [1];
-for NO_switch = [0,1];    
+for NO_switch = [1];    
 c_w_switch
 t_wss_switch
 NO_switch
@@ -259,7 +259,82 @@ xlabel('Time (s)');
 ylim([20 32]);
 % legend('1','2','3','4','5','6','7','8')
 hold all
+%% with Can & Caj
+figure(8)
+set(gcf, 'Position', [400 300 800 600]);
+subplot(4,2,1)
+% [hAx] = plotyy(time, state(:,ind.nNOS_act),time, state(:,ind.eNOS_act));
+% xlabel('Time (s)');
+% ylabel(hAx(1),'[nNOS_{act}]_n (\muM)');
+% ylabel(hAx(2),'[eNOS_{act}]_j (\muM)');
+plot(time, state(:,ind.nNOS_act),time, state(:,ind.eNOS_act),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[NOS_{act}] (\muM)');
+legend('nNOS','eNOS','Location','NorthWest')
+hold all
 
+subplot(4,2,2)
+plot(time, state(:,ind.Ca_n),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[Ca^{2+}]_n (\muM)')
+hold all
+
+subplot(4,2,3)
+plot(time, state(:,ind.Ca_j),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[Ca^{2+}]_j (\muM)')
+hold all
+
+subplot(4,2,4)
+plot(time, state(:,ind.NO_n),time, state(:,ind.NO_k),time, state(:,ind.NO_j),time, state(:,ind.NO_i),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[NO] (\muM)')
+legend('NE','AC','EC','SMC','Location','NorthWest')
+hold all
+
+subplot(4,2,5)
+plot(time, state(:,ind.cGMP),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[cGMP] (\muM)')
+hold all
+
+subplot(4,2,6)
+plot(time,DATA(:,smcoff+flu.K2_c),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('K_2 and K_5 (dim.less)')
+ylim([1.8 2.1]);
+% legend('1','2','3','4','5','6','7','8')
+hold all
+
+subplot(4,2,7)
+plot(time, state(:,ind.w_i),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('w_i (dim.less)')
+% legend('1','2','3','4','5','6','7','8')
+hold all
+
+subplot(4,2,8)
+plot(time, state(:,ind.R)*1e6,'LineWidth',1);
+ylabel('Radius (\mum)')
+xlabel('Time (s)');
+ylim([20 32]);
+% legend('1','2','3','4','5','6','7','8')
+hold all
+
+%% 
+figure(9)
+
+subplot(1,2,1)
+plot(time, state(:,ind.Ca_n),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[Ca^{2+}]_n (\muM)')
+hold all
+
+subplot(1,2,2)
+plot(time, state(:,ind.Ca_j),'LineWidth',1);
+xlabel('Time (s)');
+ylabel('[Ca^{2+}]_j (\muM)')
+hold all
 
 end
 
