@@ -175,8 +175,8 @@ end
 NE(flu.P_NR2AO)         = Glu/(betA+Glu); 
 NE(flu.P_NR2BO)         = Glu/(betB+Glu);
 NE(flu.openProbTerm)    = 0.63 * NE(flu.P_NR2AO) + 11 * NE(flu.P_NR2BO);
-NE(flu.I_Ca)            = (-4*v_n*G_M*P_Ca_P_M*(Ca_ex/M))/(1+exp(-0.08*(v_n+20)))...
-                            *(exp(2*1e-3*v_n*Farad/(R_gas*T)))/(1-exp(2*1e-3*v_n*Farad/(R_gas*T)))...
+NE(flu.I_Ca)            = (-4*v_n*G_M*P_Ca_P_M*(Ca_ex/M))/(1+exp(-80*(v_n+0.02)))...
+                            *(exp(2*v_n*Farad/(R_gas*T)))/(1-exp(2*v_n*Farad/(R_gas*T)))...
                             *(0.63*NE(flu.P_NR2AO)+11*NE(flu.P_NR2BO));     % inward calcium current per open NMDA receptor ; (96)
 NE(flu.phi_N)           = 1 + Q1*state(ind.Ca_n) + Q1*Q2*state(ind.Ca_n)^2 + Q1*Q2*Q3*state(ind.Ca_n)^3 + Q1*Q2*Q3*Q4*state(ind.Ca_n)^4;        % (102)
 NE(flu.dphi_N)          = Q1 + 2*Q1*Q2*state(ind.Ca_n) + 3*Q1*Q2*Q3*state(ind.Ca_n)^2 + 4*Q1*Q2*Q3*Q4*state(ind.Ca_n)^3;            % == d(phi_N)/d(ind.Ca_n) ; (part of 101)
@@ -212,7 +212,7 @@ else
 end
 
 SMC(flu.K5_c)           = SMC(flu.K2_c);
-SMC(flu.kmlcp)          = k_mlcp_b + k_mlcp_c * SMC(flu.R_cGMP2);
+%SMC(flu.kmlcp)          = k_mlcp_b + k_mlcp_c * SMC(flu.R_cGMP2);
 %SMC(flu.Kactivation_i)  =      ( state(ind.Ca_i) + c_w )^2 / ( (state(ind.Ca_i) + c_w)^2 + bet*exp(-(state(ind.v_i) - SMC(flu.v_Ca3))/R_K) );
 %%--> SMC(flu.Kactivation_i)   = ( state(ind.Ca_i) -0.0838 )^2 / ( (state(ind.Ca_i) -0.0838)^2 + bet*exp(-(state(ind.v_i) - v_Ca3) /R_K) );
 %SMC(flu.Kactivation_i)  = 0.1; %1 / (1 + exp( -(state(ind.v_i) - SMC(flu.v_Ca3)) / 30.8 )); % Yang2005

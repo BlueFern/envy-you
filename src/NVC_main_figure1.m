@@ -35,7 +35,7 @@ K2K5_switch = 1;
 Ca_switch = 1;
 cGMP_switch = 1;
 for c_w_switch = [1];
-for t_wss_switch = [1];
+for t_wss_switch = [1,0];
 for NO_switch = [1];    
 c_w_switch
 t_wss_switch
@@ -46,11 +46,11 @@ eNOS_switch = NO_switch;
 
 %% Parameters to adjust the model:
 t_start = 0;
-t_end = 1000;
+t_end = 1200;
 startpulse  = 400;  % (s) 
 lengthpulse = 200;  % (s) 
-Glu_start   = 400;
-Glu_end     = 600;
+Glu_start   = 800;
+Glu_end     = 1000;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)

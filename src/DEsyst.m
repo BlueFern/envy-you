@@ -107,10 +107,10 @@ dy(ind.R)= R0pas_r/nu_r *(state(ind.R)*P_r/SMC(flu.h_r) - E_r * ((state(ind.R) -
 global nNOS_switch eNOS_switch
 % NE           
        dy(ind.Ca_n)       = (((NE(flu.I_Ca))/(2*Farad*v_spine)-(k_ex*(state(ind.Ca_n)-Ca_rest)))/(1+lambda));                                                   % cytosolic [Ca2+] in the NE in \muM
-       dy(ind.nNOS_act)   = nNOS_switch * (V_maxNOS*(NE(flu.CaM))/(K_actNOS+NE(flu.CaM))-mu2*state(ind.nNOS_act));                                    % activated nNOS in \muM
+       dy(ind.nNOS_act)   = nNOS_switch * (V_maxNOS*(NE(flu.CaM))/(K_actNOS+NE(flu.CaM))-mu2_n*state(ind.nNOS_act));                                    % activated nNOS in \muM
        dy(ind.NO_n)        = ((state(ind.nNOS_act) * V_NOn_max * (On/(K_mO2_n+On)) * (LArg_n/(K_mArg+LArg_n)) )) + ((state(ind.NO_k)-state(ind.NO_n))/tau_nk) - (k_O2*state(ind.NO_n)^2*On);   % NO concentration in the neuron ; (95)
        %maximal production - FIG 6:  
-       dy(ind.nNOS_act_max)   = nNOS_switch * (V_maxNOS - mu2 * state(ind.nNOS_act_max));                                    % activated nNOS in \muM
+       dy(ind.nNOS_act_max)   = nNOS_switch * (V_maxNOS - mu2_n * state(ind.nNOS_act_max));                                    % activated nNOS in \muM
        % absolutes Limit des Models: (unrealistisch)
        %        dy(ind.NOn_max)        = V_NOn_max*state(ind.nNOS_act_max) + ((state(ind.NOk_max)-state(ind.NOn_max))/tau_nk) - (k_O2*state(ind.NOn_max)^2*On);   % NO concentration in the neuron ; (95)
        dy(ind.NOn_max)        = (state(ind.nNOS_act) * V_NOn_max ) + ((state(ind.NOk_max)-state(ind.NOn_max))/tau_nk) - (k_O2*state(ind.NOn_max)^2*On);   % NO concentration in the neuron ; (95)
@@ -132,13 +132,13 @@ global nNOS_switch eNOS_switch
        
 % EC
        gam_eNOS = 0.1;
-       dy(ind.eNOS_act)   = eNOS_switch * (gam_eNOS * SMC(flu.Act_eNOS_Ca)  + (1-gam_eNOS) * SMC(flu.Act_eNOS_wss)- mu2*state(ind.eNOS_act)) ;          % (104)
+       dy(ind.eNOS_act)   = eNOS_switch * (gam_eNOS * SMC(flu.Act_eNOS_Ca)  + (1-gam_eNOS) * SMC(flu.Act_eNOS_wss)- mu2_j*state(ind.eNOS_act)) ;          % (104)
 
-       dy(ind.NO_j)        = (V_NOj_max * (state(ind.eNOS_act)) * (Oj/(K_mO2_j+Oj)) * (LArg_j/(K_mArg+LArg_j)) ) + ((state(ind.NO_i)-state(ind.NO_j))/tau_ij)   - k_O2*(state(ind.NO_j))^2*Oj - state(ind.NO_j)*4*3300/(25^2);
+       dy(ind.NO_j)        = (V_NOj_max * (state(ind.eNOS_act)) * (Oj/(K_mO2_j+Oj)) * (LArg_j/(K_mArg+LArg_j)) ) + ((state(ind.NO_i)-state(ind.NO_j))/tau_ij)   - k_O2*(state(ind.NO_j))^2*Oj - state(ind.NO_j)*4*3300/(25^2); % CAREFUL: This should be radius instead of 25
        % maximal production - FIG 6: 
        Act_eNOS_Ca_max = 0.09; % at infinitively high Ca_j concentration
        Act_eNOS_wss_max = 0.04; % at infinitively high wss concentration
-       dy(ind.eNOS_act_max)   = eNOS_switch * (gam_eNOS * Act_eNOS_Ca_max + (1-gam_eNOS) * Act_eNOS_wss_max - mu2*state(ind.eNOS_act_max)) ;          % (104)
+       dy(ind.eNOS_act_max)   = eNOS_switch * (gam_eNOS * Act_eNOS_Ca_max + (1-gam_eNOS) * Act_eNOS_wss_max - mu2_j*state(ind.eNOS_act_max)) ;          % (104)
        % absolutes Limit des Models: (unrealistisch)
 %        dy(ind.NOj_max)        = V_NOj_max*state(ind.eNOS_act_max) + ((state(ind.NOi_max)-state(ind.NOj_max))/tau_ij)   - k_O2*(state(ind.NOj_max))^2*Oj - state(ind.NOj_max)*4*3300/(25^2);
        dy(ind.NOj_max)        = V_NOj_max*state(ind.eNOS_act) + ((state(ind.NOi_max)-state(ind.NOj_max))/tau_ij)   - k_O2*(state(ind.NOj_max))^2*Oj - state(ind.NOj_max)*4*3300/(25^2);

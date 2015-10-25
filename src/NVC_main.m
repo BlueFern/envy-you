@@ -1,25 +1,43 @@
-%clean
+clean
 tic
 
 % global variables
 global CASE J_PLC startpulse lengthpulse C_Hillmann stretch_ch only_Koenig NVU Glu_start Glu_end wss_start wss_end c_w_switch t_wss_switch vivi NO_switch
-global nNOS_switch eNOS_switch Ca_switch cGMP_switch K2K5_switch
+global  nNOS_switch eNOS_switch Ca_switch cGMP_switch K2K5_switch
 %% NO pathway
-Ca_switch = 1;
-cGMP_switch = 1;
 global m %(cGMP coupling (0 - lowest influence to 2 - highest influence))
 m = 2;
 lalaa = 1;
-
-for K2K5_switch = [1];
+% 
+% cai = [];
+% logcai = [];
+% Po = [];
+% vca3 = [];
+% rcgmp1 = [];
+% vii = [];
+% timee = [];
+% for c_w_switch = [1]
+% 
+% for t_wss_switch = [1]
+% 
+% for NO_switch = [1]
+% for switch1 = [1]
+    
+% c_w_switch = switch1;
+% t_wss_switch = switch1;
+% NO_switch = switch1;
+%     
+K2K5_switch = 1;
+Ca_switch = 1;
+cGMP_switch = 1;
 for c_w_switch = [1];
 for t_wss_switch = [1];
-for NO_switch = [0,1];
-    
+for NO_switch = [1];    
 c_w_switch
 t_wss_switch
+NO_switch
 nNOS_switch = NO_switch;
-eNOS_switch = NO_switch; 
+eNOS_switch = NO_switch;
 % for vivi = -100:10:200
 
 %% Parameters to adjust the model:
@@ -27,8 +45,8 @@ t_start = 0;
 t_end = 800;
 startpulse  = 400;  % (s) 
 lengthpulse = 200;  % (s) 
-Glu_start   = startpulse; %startpulse;
-Glu_end     = startpulse + lengthpulse; %startpulse + lengthpulse;
+Glu_start   = 400;
+Glu_end     = 600;
 wss_start   = 100000; 
 wss_end     = 120000;
 CASE        = 2;    % (see all_constants.m for details)
@@ -81,7 +99,6 @@ inputoff= tijdoff+ 1;
 
 
 time = DATA(:,length(DATA(1,:))-5);
-
 figure(4), plot(time, state(:,ind.R))
 legend('1','2','3','4','5','6','7','8')
 hold all
@@ -284,7 +301,7 @@ hold all
 end
 end
 end
-end
+
 
 % 
 % %% save figures & parameters

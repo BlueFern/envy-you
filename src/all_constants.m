@@ -245,20 +245,20 @@ nu_r        = 1e4;
 LArg_n		= 100;			% Nochmal genauer ausrechnen! --> Ping paper! - wird spaeter variabel!
 LArg_j		= 100;			% Nochmal genauer ausrechnen! --> Ping paper! - wird spaeter variabel!
 %F           = 96500;        % [-] ; Faraday's constant (see above)
-v_spine     = 8e-8;         % [fL] ; the volume of the neuronal dendritic spine
-k_ex        = 1600;         % [s^{-1}] ; the decay rate constant of internal calcium concentration
+v_spine     = 8e-8;         % [nL] ; the volume of the neuronal dendritic spine Santucci2008
+k_ex        = 1600;         % [s^{-1}] ; the decay rate constant of internal calcium concentration Santucci2008
 Ca_rest     = 0.1; 			% [\muM] ; the resting calcium concentration (in Comerford+David2008: 2.830 mM; in Santucci2008P: 0.1 \muM)
-lambda      = 20;           % [-] ; the buffer capacity
+lambda      = 20;           % [-] ; the buffer capacity Santucci2008
 
 V_nNOS      = 1.435;        % [-] ; NO production - nNOS concentration ratio (Chen+Popel2007)
 
 K_actNOS    = 9.27e-2;      % [microM]
 
-D_NO 		= 3300;			% [\muM^2 s^{-1}] ; NO diffusion coefficient 
+D_NO 		= 3300;			% [um^2 s^{-1}] ; NO diffusion coefficient 
 % dist_ni		= 50;			% [\mu m] ; estimation
-dist_nk     = 25;
-dist_ki     = 25;
-dist_ij		= 3.75;			% [\mu m] ; Kavdia 2002
+dist_nk     = 25; % um
+dist_ki     = 25;   % um
+dist_ij		= 3.75;			% [um] ; Kavdia 2002
 
 % tau_ni      = dist_ni^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997 - time for NO to diffuse the distance between NE & SMC
 tau_nk      = dist_nk^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster1997 
@@ -268,11 +268,11 @@ tau_ij      = dist_ij^2/(2*D_NO);  % Einstein-Smoluchowski equation, Lancaster19
 k_O2        = 9.6e-6;       % [microM^{-2} s^{-1}] 
 On          = 200;         	% [microM] ; the tissue O2 concentration in the neuron
 Ok          = 200;         	% [microM] ; the tissue O2 concentration in the AC
-v_n         = -40;          % [mV] ; the neuronal membrane potential , assumed to be approx constant in this model
-G_M         = 46;        	% [pS] ; the conductance of the NMDA channel to Ca2+ compaired  
-P_Ca_P_M    = 3.6;         	% [-] ; the relative conductance of the NMDA channel to Ca2+ compared to monovalent ions
-Ca_ex       = 2e3;          % [microM] ; the external calcium concentration (in Comerford+David2008: 1.5 mM!)
-M           = 1.3e5;        % [microM] ; the concentration of monovalent ions in the neuron
+v_n         = -0.04; % V! % was: -40;          % [mV] ; the neuronal membrane potential , assumed to be approx constant in this model, Santucci
+G_M         = 46000; % fS! %  was: 46;        	% [pS] ; the conductance of the NMDA channel to Ca2+ compaired  , Santucci
+P_Ca_P_M    = 3.6;         	% [-] ; the relative conductance of the NMDA channel to Ca2+ compared to monovalent ions, Santucci
+Ca_ex       = 2e3;          % [microM] ; the external calcium concentration (in Comerford+David2008: 1.5 mM!), Santucci
+M           = 1.3e5;        % [microM] ; the concentration of monovalent ions in the neuron, Santucci
 % R           = 8.314;      	% [Jmol^{-1}K^{-1}]
 T           = 310.65;     	% [K] ; temperature
 betA        = 650 ;       	% [uM] ; changed it!
@@ -288,19 +288,20 @@ CaM_thresh = Ca_rest/( Ca_rest*(Q1 + 2*Q1*Q2*Ca_rest + 3*Q1*Q2*Q3*Ca_rest^2 + 4*
 Oj          = 200;         	% [\muM]; the O2 concentration in the EC
  K_dis       = 9e-2;    		% [\muM s^{-1}]          % = 0.09 [\mu M s^{-1}]
  K_eNOS      = 4.5e-1;    	% [\muM]            % = 0.45 [\mu M] ; Michaelis constant for dx(eNOS_act)
- mu2         = 0.0167;       % [s^{-1}] ; the rate constant at which the eNOS is deactivated 
+ mu2_n         = 0.0167;       % [s^{-1}] ; the rate constant at which the nNOS is deactivated Comerford2008
+ mu2_j         = 0.0167;       % [s^{-1}] ; the rate constant at which the eNOS is deactivated Comerford2008
  g_max       = 0.06; %0.3;    		% [microM s^{-1}], maximal wss activation - fitted to Kavdia2003; in Comerford2008: 0.06, in Hannahs thesis 17.6, because she mixed up qmax and gmax in Comerford2008 
-alp         = 2;            % [-] (in Wiesner1997: 3)
-W_0         = 1.4;        	% [Pa^{-1}]
-delt_wss    = 2.86 ;        % [Pa] ; the membrane shear modulus
+alp         = 2;            % [-] zero shear open channel constant (in Wiesner1997: 3) Comerford2008
+W_0         = 1.4;        	% [Pa^{-1}] shear gating constant Comerford2008
+delt_wss    = 2.86 ;        % [Pa] ; the membrane shear modulus Comerford2008
 
 
 % SMC*********************
-k_dno       = 0.01;         % [s^{-1}]  (Hannahs code)
+k_dno       = 0.01;         % [s^{-1}]  Yang2005
+k_1         = 100;          % [s^{-1}]; a rate constant
 k1          = 2e3 ;    		% [\muM^{-1}s^{-1}] == 2000 muM^{-1}s^{-1}; a rate constant
 k2          = 0.1;          % [s^{-1}]; a rate constant
 k3          = 3;        	% [\muM^{-1}s^{-1}] == 3 muM^{-1}s^{-1}; a rate constant
-k_1         = 100;          % [s^{-1}]; a rate constant
 
 
 % m =2; % cGMP influence (0 - lowest influence)
@@ -336,11 +337,11 @@ k_mlck = 1180;
 v_Ca3		= -27; % cGMP and NO dependent
 
 % c_w = 0; % translation factor for Ca dependence of KCa channel activation sigmoidal [microM] 
-bet_i= 0.13; % translation factor for membrane potential dependence of KCa channel activation sigmoidal [microM^2] 
+% bet_i= 0.13; % translation factor for membrane potential dependence of KCa channel activation sigmoidal [microM^2] 
 
 K_mArg = 1.5; % in EC and neuron, maybe we want to make it cell-specific like O2! --> Chen2006 & 2007
-K_mO2_j = 7.7;
-K_mO2_n = 243; % 140-145 uM Chen2007
+K_mO2_j = 7.7; %Chen2006
+K_mO2_n = 243; % 140-145 uM Chen2006
 
     V_maxNOS    = 25e-3;   		% [\muM] 1.683;%0.025; %2.5e-8;%2.5e-8; %1.683e-4; %1.324; %2.5e-5; % 0.025;% 2.5e-8; %2.4925e-8;  %0.025; %2.0265e-9; % 1.054e-7;  % 1.683;[mM s^{-1}] (Hayashi1999)
     %V_eNOS     = 0.24;         % [-] ; NO production - eNOS concentration ratio (Chen+Popel2006)
